@@ -1,8 +1,14 @@
 package com.grafos.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import com.grafos.model.Configuration;
@@ -72,8 +78,18 @@ public class BuscaView extends JFrame {
     	
     	btnBuscar = new JButton();
     	btnBuscar.setBounds(580, 20, 100, 30);
-    	btnBuscar.setText("Buscar:");
+    	btnBuscar.setText("Buscar");
     	getContentPane().add(btnBuscar);
+    	
+    	btnBuscar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//TO DO ACTION
+				
+			}
+			
+        });
     	
     	/* Cidade 1 */
     	
@@ -143,6 +159,26 @@ public class BuscaView extends JFrame {
     	btnAdiciona.setText("+");
     	getContentPane().add(btnAdiciona);
     	
+    	btnAdiciona.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(txfCitiesVerify()) {
+						//do the action do add the city on JTable
+					}
+					else {
+						throw new Exception("Tentou inserir com campos sem valores.");
+					}
+				} catch(Exception e1) {
+					
+				}
+				
+				
+				
+			}
+			
+        });
+    	
     	/* FINALIZACAO */
     	
     	btnSalvar = new JButton();
@@ -154,7 +190,54 @@ public class BuscaView extends JFrame {
     	btnProcessar.setBounds(775,550, 150, 30);
     	btnProcessar.setText("PROCESSAR");
     	getContentPane().add(btnProcessar);
+    	
+    	btnSalvar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//TO DO ACTION
+				
+			}
+			
+        });
+    	
+    	btnProcessar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				//TO DO ACTION
+				
+			}
+			
+        });
 		
+	}
+	
+	//verify if all txf have values
+	private boolean txfCitiesVerify() {
+		
+		if(txfCod1.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Codigo 1 não informado.");
+			return false;
+		}
+		else if(txfCod2.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Codigo 2 não informado.");
+			return false;
+		}
+		else if(txfCidade1.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Cidade de origem não informado.");
+			return false;
+		}
+		else if(txfCidade2.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Cidade de origem não informado.");
+			return false;
+		}
+		else if(txfKM.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Distancia não informado.");
+			return false;
+		}
+		
+		return true;
 	}
 	
 }
