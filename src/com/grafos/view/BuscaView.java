@@ -170,7 +170,7 @@ public class BuscaView extends JFrame {
 						throw new Exception("Tentou inserir com campos sem valores.");
 					}
 				} catch(Exception e1) {
-					
+					System.out.println(e1.getMessage());
 				}
 				
 				

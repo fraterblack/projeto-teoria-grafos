@@ -1,10 +1,16 @@
 package com.grafos.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import com.grafos.lib.DatabaseManager;
+import com.grafos.model.Configuration;
 
 public class ConfiguracaoView extends JFrame {
 	
@@ -67,6 +73,45 @@ public class ConfiguracaoView extends JFrame {
 		btnSalvar.setBounds(79, 130, 130, 25);
 		getContentPane().add(btnSalvar);
 		
+		btnSalvar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(txfConfigVerify()) {
+						DatabaseManager dm = new DatabaseManager();
+						dm.createConfig(new Configuration(txfPasta.getText(),txfSucesso.getText(),txfErro.getText(),ckbRotaAutomatica.isSelected()));
+						
+						setVisible(false);
+					}
+					else {
+						throw new Exception("Tentou inserir com campos sem valores.");
+					}
+				} catch(Exception e1) {
+					System.out.println(e1.getMessage());
+				}			
+			}
+
+				
+        });
+		
+	}
+	
+	private boolean txfConfigVerify() {
+		
+		if(txfPasta.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Pasta principal não informada.");
+			return false;
+		}
+		else if(txfSucesso.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Pasta sucesso não informada.");
+			return false;
+		}
+		else if(txfErro.getText().length() < 1) {
+			//JOptionPane.showMessageDialog(null, "Pasta erro não informada.");
+			return false;
+		}
+		
+		return true;
 	}
 	
 }

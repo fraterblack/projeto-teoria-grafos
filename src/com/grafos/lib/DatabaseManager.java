@@ -29,7 +29,7 @@ public class DatabaseManager {
 	        line += config.getSucess() + "\n";
 	        line += config.getError() + "\n";
 	        line += config.getAutomatic() + "\n";
-
+	        System.out.println(line);
 	        //criar integridade dos arquivos
 	        line += createHash(config);
 			
@@ -89,6 +89,11 @@ public class DatabaseManager {
 		return null;
 	}
 	
+	public boolean hasConfig() {
+		System.out.println(FILECONFIG.exists());
+		return FILECONFIG.exists();
+	}
+	
 	//gera um hash em md5 com as configuracoes
 	public String createHash(Configuration config) {
 		try {
@@ -108,5 +113,6 @@ public class DatabaseManager {
 		}
 		return "";
 	}
+	
 	
 }
