@@ -1,6 +1,6 @@
-package model;
+package com.grafos.model;
 
-public class City extends ModelBase {
+public class City {
 	int cityId;
 	String CityName;
 	double distance;
@@ -13,7 +13,7 @@ public class City extends ModelBase {
 	}
 	public String getCityName() {
 		return CityName;
-	},
+	}
 	public void setCityName(String cityName) {
 		CityName = cityName;
 	}

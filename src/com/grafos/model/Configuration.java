@@ -1,14 +1,16 @@
-package model;
+package com.grafos.model;
 
 public class Configuration {
-	String folder;
-	String sucess;
-	String error;
-	
-	public Configuration(String folder, String sucess, String error) {
+	private String folder;
+	private String sucess;
+	private String error;
+	private Boolean automatic = false;
+
+	public Configuration(String folder, String sucess, String error, Boolean automatic) {
 		this.folder = folder;
 		this.sucess = sucess;
 		this.error = error;
+		this.automatic = automatic;
 	}
 	
 	public String getFolder() {
@@ -35,4 +37,11 @@ public class Configuration {
 		this.error = error;
 	}
 	
+	public Boolean getAutomatic() {
+		return automatic;
+	}
+
+	public void setAutomatic(Boolean automatic) {
+		this.automatic = automatic;
+	}
 }

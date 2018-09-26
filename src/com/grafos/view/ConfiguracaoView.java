@@ -1,4 +1,4 @@
-package view;
+package com.grafos.view;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class ConfiguracaoView extends JFrame{
+public class ConfiguracaoView extends JFrame {
 	
 	private JLabel lblPasta;
 	private JTextField txfPasta;
@@ -18,19 +18,18 @@ public class ConfiguracaoView extends JFrame{
 	private JButton btnSalvar;
 	
 	public ConfiguracaoView() {
-		
 		setSize(300,200);
 		setTitle("Cofiguração");
 		setLayout(null);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		CriarComponentes();
 		
+		CriarComponentes();
 	}
 	
 	private void CriarComponentes() {
-//		Pasta
+		//Pasta
 		lblPasta =  new JLabel("Pasta:");
 		lblPasta.setBounds(10, 10, 50, 25);
 		getContentPane().add(lblPasta);
@@ -39,7 +38,7 @@ public class ConfiguracaoView extends JFrame{
 		txfPasta.setBounds(80, 10, 210,25);
 		getContentPane().add(txfPasta);
 		
-//		Sucesso
+		//Sucesso
 		lblSucessso =  new JLabel("Sucesso:");
 		lblSucessso.setBounds(10, 40, 80, 25);
 		getContentPane().add(lblSucessso);
@@ -48,7 +47,7 @@ public class ConfiguracaoView extends JFrame{
 		txfSucesso.setBounds(80, 40, 100,25);
 		getContentPane().add(txfSucesso);
 		
-//		Erro
+		//Erro
 		lblErro =  new JLabel("Erro:");
 		lblErro.setBounds(11, 70, 50, 25);
 		getContentPane().add(lblErro);
@@ -57,21 +56,17 @@ public class ConfiguracaoView extends JFrame{
 		txfErro.setBounds(80, 70, 100,25);
 		getContentPane().add(txfErro);
 		
-//		Rota Automatica
+        //Rota Automatica
 		ckbRotaAutomatica = new JCheckBox("Rota automática");
 		ckbRotaAutomatica.setSelected(false);
 		ckbRotaAutomatica.setBounds(80, 100, 150, 25);
 		getContentPane().add(ckbRotaAutomatica);
 		
-//		salvar
+		//Salvar
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(79, 130, 130, 25);
 		getContentPane().add(btnSalvar);
 		
 	}
 	
-	public static void main(String[] args) {
-		new ConfiguracaoView().setVisible(true);
-	}
-
 }

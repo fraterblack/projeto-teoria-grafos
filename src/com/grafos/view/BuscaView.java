@@ -1,13 +1,11 @@
-package view;
+package com.grafos.view;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import model.Configuration;
-
-
+import com.grafos.model.Configuration;
 
 public class BuscaView extends JFrame {
 	
