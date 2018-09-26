@@ -92,7 +92,12 @@ public class DatabaseManager {
 	//gera um hash em md5 com as configuracoes
 	public String createHash(Configuration config) {
 		try {
-			String s= config.getFolder()+config.getSucess()+config.getError()+config.getAutomatic();
+			String s= config.getFolder()
+					+ config.getSucess()
+					+ config.getError()
+					+ config.getAutomatic()
+					+ "NERF PROTOSS";
+			
 	        MessageDigest m;
 			m = MessageDigest.getInstance("MD5");
 			m.update(s.getBytes(),0,s.length());
