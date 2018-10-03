@@ -29,6 +29,7 @@ public class ConfiguracaoView extends JFrame implements SubjectConfigurationInte
 	private JTextField txfErro;
 	private JCheckBox ckbRotaAutomatica;
 	private JButton btnSalvar;
+
 	
 	public ConfiguracaoView() {
 		setSize(300,200);
@@ -38,12 +39,13 @@ public class ConfiguracaoView extends JFrame implements SubjectConfigurationInte
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		CriarComponentes();
+		createComponents();
 	}
 	
-	private void CriarComponentes() {
+	private void createComponents() {
+		
 		//Pasta
-		lblPasta =  new JLabel("Pasta:");
+		lblPasta =  new JLabel("Pasta");
 		lblPasta.setBounds(10, 10, 50, 25);
 		getContentPane().add(lblPasta);
 		
@@ -79,6 +81,17 @@ public class ConfiguracaoView extends JFrame implements SubjectConfigurationInte
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(79, 130, 130, 25);
 		getContentPane().add(btnSalvar);
+		
+		DatabaseManager db = new DatabaseManager();
+		
+		//seta os valores já existentes da configuração
+		if(db.hasConfig()) {
+			Configuration config = db.getConfig();
+			txfErro.setText(config.getError());
+			txfPasta.setText(config.getFolder());
+			txfSucesso.setText(config.getSucess());
+			ckbRotaAutomatica.setSelected(config.getAutomatic());
+		}
 		
 		btnSalvar.addActionListener(new ActionListener() {
 
