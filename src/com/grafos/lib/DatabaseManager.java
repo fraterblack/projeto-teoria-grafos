@@ -15,7 +15,8 @@ import com.grafos.model.Configuration;
 
 public class DatabaseManager {
 	
-	File FILECONFIG = new File(System.getProperty("user.home")+"/menorcaminhoconfig.txt");
+	String STANDART_LOCAL_FILE = System.getProperty("user.home");
+	File FILECONFIG = new File(STANDART_LOCAL_FILE+"/menorcaminhoconfig.txt");
 	
 	public void createConfig(Configuration config) {
 		
@@ -33,6 +34,7 @@ public class DatabaseManager {
 	        //criar integridade dos arquivos
 	        line += createHash(config);
 			
+	        createConfigurationsFolders(config);
 	    	buffWrite.append(line + "\n");
 	        buffWrite.close();
 		} catch (IOException e) {
@@ -42,6 +44,29 @@ public class DatabaseManager {
         
 	}
 	
+	//create all folders (using other function)
+	private void createConfigurationsFolders(Configuration config) {
+		System.out.println(config.getFolder()+"\\pasta");
+		createSingleFolder(config.getFolder()+"\\pasta");
+		createSingleFolder(config.getError()+"\\erro");
+		createSingleFolder(config.getSucess()+"\\sucesso");
+		
+	}
+	
+	//create a fodler
+	private void createSingleFolder(String path) {
+		File folder = new File(path);
+		
+		if (!folder.exists()) {
+            if (folder.mkdirs()) {
+                System.out.println("Multiple directories are created!");
+            } else {
+                System.out.println("Failed to create multiple directories!");
+            }
+        }
+
+	}
+
 	public Configuration getConfig() {
 		
     	BufferedReader buffRead;

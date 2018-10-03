@@ -1,5 +1,7 @@
 package com.grafos.controller;
 
+import java.io.File;
+
 import javax.swing.SwingUtilities;
 
 import com.grafos.lib.DatabaseManager;
@@ -8,6 +10,7 @@ import com.grafos.trayIcon.TrayIconApplication;
 import com.grafos.view.ConfiguracaoView;
 
 public class MainController {
+	
 	public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -21,8 +24,33 @@ public class MainController {
             		return;
             	}
             	
-            	//Cria as thread (ou instância o objeto que fará isto) aqui para assistir mudanças no diretório
-            	//quando automático estiver marcado
+            	Configuration config = dm.getConfig();
+            	
+        		if (config.getAutomatic()) {
+        			new Thread(new Runnable() {
+      
+        				@Override
+        				public void run() {
+        					try {				
+        						while (!Thread.currentThread().isInterrupted()) {
+        							/* TA BUGANDO */
+        							File folder = new File(config.getFolder()+"\\pasta");
+        							for (String file : folder.list()) {
+        								if (file.endsWith(".txt")) {
+        									System.out.println("test");
+        								}
+        							}
+        							
+        							
+        							Thread.sleep(1000);
+        						}
+        					}					
+        					catch (Exception e) {
+
+        					}
+        				}
+        			}).start();	
+        		}
             	
             	//Inicializa o Tray Icon
             	TrayIconApplication trayIcon = new TrayIconApplication(dm.getConfig());
