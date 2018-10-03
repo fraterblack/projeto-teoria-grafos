@@ -46,8 +46,8 @@ public class DatabaseManager {
 	//create all folders (using other function)
 	private void createConfigurationsFolders(Configuration config) {
 		createSingleFolder(config.getFolder());
-		createSingleFolder(config.getError());
-		createSingleFolder(config.getSucess());
+		createSingleFolder(config.getFolder() + "//" + config.getError());
+		createSingleFolder(config.getFolder() + "//" + config.getSucess());
 		
 	}
 	

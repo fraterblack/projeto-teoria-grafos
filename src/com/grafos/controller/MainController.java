@@ -40,12 +40,15 @@ public class MainController {
         							/* TA BUGANDO */
         							File folder = new File(config.getFolder());
         							for (String file : folder.list()) {
-        								if (file.endsWith(".txt")) {
+        								if (file.endsWith(".txt") && !file.contains("-processing")) {
+        									//TODO: antes mesmo de processar o arquivo, renomeá-lo com "-processing"
+        									//Desta forma, o arquivo não será processado na próxima vez que a thread varrer o diretório
+        									
         									System.out.println("process txt");
         								}
         							}
 
-        							Thread.sleep(3000);
+        							Thread.sleep(2000);
         						}
         					}					
         					catch (Exception e) {
