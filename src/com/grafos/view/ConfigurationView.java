@@ -16,7 +16,7 @@ import com.grafos.model.Configuration;
 import com.grafos.observer.ObserverConfigurationInterface;
 import com.grafos.observer.SubjectConfigurationInterface;
 
-public class ConfiguracaoView extends JFrame implements SubjectConfigurationInterface {
+public class ConfigurationView extends JFrame implements SubjectConfigurationInterface {
 	private static final long serialVersionUID = 6632200882344575857L;
 	
 	private ArrayList<ObserverConfigurationInterface> observers = new ArrayList<ObserverConfigurationInterface>();
@@ -31,7 +31,7 @@ public class ConfiguracaoView extends JFrame implements SubjectConfigurationInte
 	private JButton btnSalvar;
 
 	
-	public ConfiguracaoView() {
+	public ConfigurationView() {
 		setSize(300,200);
 		setTitle("Configuração");
 		setLayout(null);
@@ -111,7 +111,7 @@ public class ConfiguracaoView extends JFrame implements SubjectConfigurationInte
 						throw new Exception("Tentou inserir com campos sem valores.");
 					}
 				} catch(Exception e1) {
-					System.out.println(e1.getMessage());
+					System.out.println("Erro: " + e1.getMessage());
 				}			
 			}
 

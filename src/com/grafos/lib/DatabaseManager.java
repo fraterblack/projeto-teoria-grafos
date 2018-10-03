@@ -3,7 +3,6 @@ package com.grafos.lib;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -46,10 +45,9 @@ public class DatabaseManager {
 	
 	//create all folders (using other function)
 	private void createConfigurationsFolders(Configuration config) {
-		System.out.println(config.getFolder()+"\\pasta");
-		createSingleFolder(config.getFolder()+"\\pasta");
-		createSingleFolder(config.getError()+"\\erro");
-		createSingleFolder(config.getSucess()+"\\sucesso");
+		createSingleFolder(config.getFolder());
+		createSingleFolder(config.getError());
+		createSingleFolder(config.getSucess());
 		
 	}
 	
@@ -88,8 +86,6 @@ public class DatabaseManager {
 			    
 			}
 
-			
-			System.out.println(i);
 			if(i != 5) {
 				buffRead.close();
 				throw new Exception("Arquivo de configuração incompleto.");
@@ -116,7 +112,6 @@ public class DatabaseManager {
 	}
 	
 	public boolean hasConfig() {
-		System.out.println(FILECONFIG.exists());
 		return FILECONFIG.exists();
 	}
 	

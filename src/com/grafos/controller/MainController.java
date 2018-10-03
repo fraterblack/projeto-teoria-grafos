@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import com.grafos.lib.DatabaseManager;
 import com.grafos.model.Configuration;
 import com.grafos.trayIcon.TrayIconApplication;
-import com.grafos.view.ConfiguracaoView;
+import com.grafos.view.ConfigurationView;
 
 public class MainController {
 	
@@ -19,12 +19,16 @@ public class MainController {
             	//Verifica se existe configuração
             	if(!dm.hasConfig()) {
             		//chama a view para criar a configuração
-            		ConfiguracaoView cv = new ConfiguracaoView();
-            		cv.setVisible(true);
+            		ConfigurationView configurationView = new ConfigurationView();
+            		configurationView.setVisible(true);
             		return;
             	}
             	
             	Configuration config = dm.getConfig();
+            	
+            	//Inicializa o Tray Icon
+            	TrayIconApplication trayIcon = new TrayIconApplication(config);
+            	trayIcon.initialize();
             	
         		if (config.getAutomatic()) {
         			new Thread(new Runnable() {
@@ -34,15 +38,14 @@ public class MainController {
         					try {				
         						while (!Thread.currentThread().isInterrupted()) {
         							/* TA BUGANDO */
-        							File folder = new File(config.getFolder()+"\\pasta");
+        							File folder = new File(config.getFolder());
         							for (String file : folder.list()) {
         								if (file.endsWith(".txt")) {
-        									System.out.println("test");
+        									System.out.println("process txt");
         								}
         							}
-        							
-        							
-        							Thread.sleep(1000);
+
+        							Thread.sleep(3000);
         						}
         					}					
         					catch (Exception e) {
@@ -50,11 +53,9 @@ public class MainController {
         					}
         				}
         			}).start();	
+        		} else {
+        			trayIcon.openSearchView(config);
         		}
-            	
-            	//Inicializa o Tray Icon
-            	TrayIconApplication trayIcon = new TrayIconApplication(dm.getConfig());
-            	trayIcon.initialize();
             }
         });
     }

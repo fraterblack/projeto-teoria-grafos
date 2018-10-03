@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import com.grafos.model.Configuration;
 
-public class BuscaView extends JFrame {
+public class SearchView extends JFrame {
 	
 	/* BUSCAR */
 	private JTextField txfBuscar;
@@ -56,7 +56,7 @@ public class BuscaView extends JFrame {
         setLocationRelativeTo(null);
 	}
 	
-	public BuscaView(Configuration config) {
+	public SearchView(Configuration config) {
 		setConfigView();
 		
 		createComponents();
@@ -170,11 +170,8 @@ public class BuscaView extends JFrame {
 						throw new Exception("Tentou inserir com campos sem valores.");
 					}
 				} catch(Exception e1) {
-					System.out.println(e1.getMessage());
+					System.out.println("Erro: " + e1.getMessage());
 				}
-				
-				
-				
 			}
 			
         });

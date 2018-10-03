@@ -7,8 +7,8 @@ import javax.swing.*;
 
 import com.grafos.model.Configuration;
 import com.grafos.observer.ObserverConfigurationInterface;
-import com.grafos.view.BuscaView;
-import com.grafos.view.ConfiguracaoView;
+import com.grafos.view.SearchView;
+import com.grafos.view.ConfigurationView;
 
 public class TrayIconApplication implements ObserverConfigurationInterface {
 	private static final String ICON_IMAGE = "../media/icon.png";
@@ -18,8 +18,8 @@ public class TrayIconApplication implements ObserverConfigurationInterface {
     CheckboxMenuItem visibleCheckBox;
     MenuItem exitMenuItem;
     
-    ConfiguracaoView configurationView;
-    BuscaView buscaView;
+    ConfigurationView configurationView;
+    SearchView searchView;
 	
 	public TrayIconApplication(Configuration configuration) {
 		this.configuration = configuration;
@@ -27,6 +27,36 @@ public class TrayIconApplication implements ObserverConfigurationInterface {
 
 	public void initialize() {
 		createAndShowGUI();
+	}
+	
+	public SearchView openSearchView(Configuration config) {
+		SearchView searchView = new SearchView(config);
+
+		searchView.addWindowListener(new WindowAdapter() {
+    		public void windowClosed(WindowEvent e) {
+    			visibleCheckBox.setState(false);
+    		}
+		});
+		
+		searchView.setVisible(true);
+		
+		visibleCheckBox.setState(true);
+		
+		return searchView;
+	}
+	
+	public ConfigurationView openConfigurationView() {
+    	configurationView = new ConfigurationView();
+    	configurationView.addObserver(this);
+		configurationView.setVisible(true);
+		
+		return configurationView;
+    }
+	
+	public void update(Configuration configuration) {
+		this.configuration = configuration;
+		
+		visibleCheckBox.setEnabled(!configuration.getAutomatic());
 	}
 	
     private void createAndShowGUI() {
@@ -68,15 +98,9 @@ public class TrayIconApplication implements ObserverConfigurationInterface {
             public void itemStateChanged(ItemEvent e) {
                 int cb1Id = e.getStateChange();
                 if (cb1Id == ItemEvent.SELECTED){
-                	buscaView = new BuscaView(configuration);
-                	buscaView.addWindowListener(new WindowAdapter() {
-                		public void windowClosed(WindowEvent e) {
-                			visibleCheckBox.setState(false);
-                		}
-					});
-                	buscaView.setVisible(true);
+                	openSearchView(configuration);
                 } else {
-                	buscaView.setVisible(false);
+                	searchView.setVisible(false);
                 }
             }
         });
@@ -95,21 +119,9 @@ public class TrayIconApplication implements ObserverConfigurationInterface {
         });
     }
     
-    private void openConfigurationView() {
-    	configurationView = new ConfiguracaoView();
-    	configurationView.addObserver(this);
-		configurationView.setVisible(true);
-    }
-    
-    protected Image createImage(String path, String description) {
+    private Image createImage(String path, String description) {
         URL imageURL = TrayIconApplication.class.getResource(path);
         
         return (new ImageIcon(imageURL, description)).getImage();
     }
-
-	public void update(Configuration configuration) {
-		this.configuration = configuration;
-		
-		visibleCheckBox.setEnabled(!configuration.getAutomatic());
-	}
 }
