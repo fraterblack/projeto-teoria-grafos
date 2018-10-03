@@ -6,10 +6,20 @@ import java.net.URL;
 import javax.swing.*;
 
 import com.grafos.model.Configuration;
+import com.grafos.observer.ObserverConfigurationInterface;
+import com.grafos.view.BuscaView;
+import com.grafos.view.ConfiguracaoView;
 
-public class TrayIconApplication {
+public class TrayIconApplication implements ObserverConfigurationInterface {
 	private static final String ICON_IMAGE = "../media/icon.png";
 	private Configuration configuration;
+	
+	MenuItem configurationMenuItem;
+    CheckboxMenuItem visibleCheckBox;
+    MenuItem exitMenuItem;
+    
+    ConfiguracaoView configurationView;
+    BuscaView buscaView;
 	
 	public TrayIconApplication(Configuration configuration) {
 		this.configuration = configuration;
@@ -26,9 +36,9 @@ public class TrayIconApplication {
         final SystemTray tray = SystemTray.getSystemTray();
         
         //Create a popup menu components
-        MenuItem configurationMenuItem = new MenuItem("Configuração");
-        CheckboxMenuItem visibleCheckBox = new CheckboxMenuItem("Visível");
-        MenuItem exitMenuItem = new MenuItem("Sair");
+        configurationMenuItem = new MenuItem("Configuração");
+        visibleCheckBox = new CheckboxMenuItem("Visível");
+        exitMenuItem = new MenuItem("Sair");
         
         //Add components to popup menu
         popup.add(configurationMenuItem);
@@ -50,7 +60,7 @@ public class TrayIconApplication {
         
         configurationMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Configuração foi clicado");
+            	openConfigurationView();
             }
         });
         
@@ -58,16 +68,22 @@ public class TrayIconApplication {
             public void itemStateChanged(ItemEvent e) {
                 int cb1Id = e.getStateChange();
                 if (cb1Id == ItemEvent.SELECTED){
-                	JOptionPane.showMessageDialog(null, "Checkbox visível foi marcado");
+                	buscaView = new BuscaView(configuration);
+                	buscaView.addWindowListener(new WindowAdapter() {
+                		public void windowClosed(WindowEvent e) {
+                			visibleCheckBox.setState(false);
+                		}
+					});
+                	buscaView.setVisible(true);
                 } else {
-                	JOptionPane.showMessageDialog(null, "Checkbox visível foi desmarcado");
+                	buscaView.setVisible(false);
                 }
             }
         });
         
         trayIcon.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Dois clíques no ícone");
+                //JOptionPane.showMessageDialog(null, "Dois clíques no ícone");
             }
         });
 
@@ -79,9 +95,21 @@ public class TrayIconApplication {
         });
     }
     
+    private void openConfigurationView() {
+    	configurationView = new ConfiguracaoView();
+    	configurationView.addObserver(this);
+		configurationView.setVisible(true);
+    }
+    
     protected Image createImage(String path, String description) {
         URL imageURL = TrayIconApplication.class.getResource(path);
         
         return (new ImageIcon(imageURL, description)).getImage();
     }
+
+	public void update(Configuration configuration) {
+		this.configuration = configuration;
+		
+		visibleCheckBox.setEnabled(!configuration.getAutomatic());
+	}
 }

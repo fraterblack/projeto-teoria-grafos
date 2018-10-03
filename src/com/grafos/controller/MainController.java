@@ -12,24 +12,21 @@ public class MainController {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
             	DatabaseManager dm = new DatabaseManager();
+            	
             	//Verifica se existe configuração
             	if(!dm.hasConfig()) {
-            		
             		//chama a view para criar a configuração
             		ConfiguracaoView cv = new ConfiguracaoView();
             		cv.setVisible(true);
-            		return; //fecha
+            		return;
             	}
-            	
-            	//Temporariamente a configuração está sendo gerada aqui (Espera-se que as configurações venham de um arquivo de configuração)
-            	Configuration configuration = new Configuration("", "", "", true);
             	
             	//Cria as thread (ou instância o objeto que fará isto) aqui para assistir mudanças no diretório
             	//quando automático estiver marcado
             	
             	//Inicializa o Tray Icon
-            	//TrayIconApplication trayIcon = new TrayIconApplication(configuration);
-            	//trayIcon.initialize();
+            	TrayIconApplication trayIcon = new TrayIconApplication(dm.getConfig());
+            	trayIcon.initialize();
             }
         });
     }

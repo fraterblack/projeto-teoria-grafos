@@ -29,7 +29,7 @@ public class DatabaseManager {
 	        line += config.getSucess() + "\n";
 	        line += config.getError() + "\n";
 	        line += config.getAutomatic() + "\n";
-	        System.out.println(line);
+
 	        //criar integridade dos arquivos
 	        line += createHash(config);
 			
@@ -42,7 +42,7 @@ public class DatabaseManager {
         
 	}
 	
-	public Configuration getConfig() throws IOException {
+	public Configuration getConfig() {
 		
     	BufferedReader buffRead;
 		try {
@@ -54,6 +54,7 @@ public class DatabaseManager {
 			while (line != null) {
 				
 				if(i > 4) {
+					buffRead.close();
 			    	throw new Exception("Arquivo de configuração está em formato errado.");
 			    }
 				configs[i] = line;
