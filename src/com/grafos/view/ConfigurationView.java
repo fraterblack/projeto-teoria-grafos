@@ -2,25 +2,18 @@ package com.grafos.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import com.grafos.lib.DatabaseManager;
 import com.grafos.model.Configuration;
-import com.grafos.observer.ObserverConfigurationInterface;
-import com.grafos.observer.SubjectConfigurationInterface;
 
-public class ConfigurationView extends JFrame implements SubjectConfigurationInterface {
+public class ConfigurationView extends JFrame {
 	private static final long serialVersionUID = 6632200882344575857L;
-	
-	private ArrayList<ObserverConfigurationInterface> observers = new ArrayList<ObserverConfigurationInterface>();
-	
+
 	private JLabel lblPasta;
 	private JTextField txfPasta;
 	private JLabel lblSucessso;
@@ -102,10 +95,9 @@ public class ConfigurationView extends JFrame implements SubjectConfigurationInt
 						
 						Configuration configuration = new Configuration(txfPasta.getText(), txfSucesso.getText(), txfErro.getText(), ckbRotaAutomatica.isSelected());
 						dm.createConfig(configuration);
-						
-						notifyObservers(configuration);
-						
+
 						setVisible(false);
+						dispose();
 					}
 					else {
 						throw new Exception("Tentou inserir com campos sem valores.");
@@ -137,22 +129,4 @@ public class ConfigurationView extends JFrame implements SubjectConfigurationInt
 		
 		return true;
 	}
-
-	public void addObserver(ObserverConfigurationInterface o) {
-		observers.add(o);
-	}
-
-	public void removeObserver(ObserverConfigurationInterface o) {
-		observers.remove(o);
-	}
-
-	public void notifyObservers(Configuration configuration) {
-		Iterator<ObserverConfigurationInterface> it = observers.iterator();
-		
-		while (it.hasNext()) {
-			ObserverConfigurationInterface observer = (ObserverConfigurationInterface) it.next();
-			observer.update(configuration);
-		}
-	}
-	
 }
