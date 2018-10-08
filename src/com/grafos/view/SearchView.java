@@ -9,7 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import com.grafos.model.Configuration;
 
@@ -43,12 +47,18 @@ public class SearchView extends JFrame {
 	/* ADD */
 	private JButton btnAdiciona;
 	
+	/* GRID */
+	private int nextDistancesGridRow = 0;
+	private JScrollPane distanceGridScrollpane;
+	private DefaultTableModel distancesGridModel = new DefaultTableModel();
+	
 	/* FINALIZACAO */
 	private JButton btnSalvar;
 	private JButton btnProcessar;
+	private JTable distancesGridTable;
 	
 	public void setConfigView() {
-		setSize(1000,650);
+		setSize(840, 550);
 		setTitle("Busca Menor Caminho");
 		setLayout(null);
         setResizable(false);
@@ -60,6 +70,7 @@ public class SearchView extends JFrame {
 		setConfigView();
 		
 		createComponents();
+		createDistancesGrid();
 		
 		setVisible(true);
 	}
@@ -155,7 +166,7 @@ public class SearchView extends JFrame {
     	/* ADD */
     	
     	btnAdiciona = new JButton();
-    	btnAdiciona.setBounds(875, 150, 50, 30);
+    	btnAdiciona.setBounds(770, 150, 50, 30);
     	btnAdiciona.setText("+");
     	getContentPane().add(btnAdiciona);
     	
@@ -175,16 +186,16 @@ public class SearchView extends JFrame {
 			}
 			
         });
-    	
+
     	/* FINALIZACAO */
     	
     	btnSalvar = new JButton();
-    	btnSalvar.setBounds(600, 550, 150, 30);
+    	btnSalvar.setBounds(500, 475, 150, 30);
     	btnSalvar.setText("SALVAR");
     	getContentPane().add(btnSalvar);
     	
     	btnProcessar = new JButton();
-    	btnProcessar.setBounds(775,550, 150, 30);
+    	btnProcessar.setBounds(670, 475, 150, 30);
     	btnProcessar.setText("PROCESSAR");
     	getContentPane().add(btnProcessar);
     	
@@ -208,6 +219,31 @@ public class SearchView extends JFrame {
 			
         });
 		
+	}
+	
+	private void createDistancesGrid() {
+		JPanel panel = new JPanel();
+		getContentPane().add(panel);
+
+		String[] colunas = { "Código Origem", "Cidade Origem", "Código Destino", "Cidade Destino", "Distância" };
+
+		distancesGridModel.setColumnIdentifiers(colunas);
+
+		distancesGridTable = new JTable(distancesGridModel);
+		distanceGridScrollpane = new JScrollPane(distancesGridTable);
+		distanceGridScrollpane.setBounds(20, 190, 800, 260);
+		setLayout(null);
+		distanceGridScrollpane.setVisible(true);
+		add(distanceGridScrollpane);
+	}
+	
+	private void insertDistanceRow() {
+		//TODO: Receber os parâmetros e montar o array de dados da linha
+		String[] rowData = {};
+		
+		distancesGridModel.insertRow(nextDistancesGridRow, rowData);
+		
+		nextDistancesGridRow++;
 	}
 	
 	//verify if all txf have values
