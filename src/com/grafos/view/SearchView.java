@@ -174,21 +174,19 @@ public class SearchView extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(txfCitiesVerify()) {
-						//do the action do add the city on JTable
+					if(validateData()) {
+						insertDistanceRow(txfCod1.getText(), txfCidade1.getText(), txfCod2.getText(), txfCidade2.getText(), txfKM.getText());
+						
+						resetFields();
 					}
-					else {
-						throw new Exception("Tentou inserir com campos sem valores.");
-					}
-				} catch(Exception e1) {
-					System.out.println("Erro: " + e1.getMessage());
+				} catch(Exception exception) {
+					JOptionPane.showMessageDialog(null, exception.getMessage());
 				}
 			}
 			
         });
 
     	/* FINALIZACAO */
-    	
     	btnSalvar = new JButton();
     	btnSalvar.setBounds(500, 475, 150, 30);
     	btnSalvar.setText("SALVAR");
@@ -237,37 +235,40 @@ public class SearchView extends JFrame {
 		add(distanceGridScrollpane);
 	}
 	
-	private void insertDistanceRow() {
+	private void insertDistanceRow(String originCityCode, String originCity, String destinationCityCode, String destinationCity, String distance) {
 		//TODO: Receber os parâmetros e montar o array de dados da linha
-		String[] rowData = {};
+		String[] rowData = { originCityCode, originCity, destinationCityCode, destinationCity, distance };
 		
 		distancesGridModel.insertRow(nextDistancesGridRow, rowData);
 		
 		nextDistancesGridRow++;
 	}
 	
-	//verify if all txf have values
-	private boolean txfCitiesVerify() {
+	private void resetFields() {
+		txfCod1.setText("");
+		txfCidade1.setText("");
+		txfCod2.setText("");
+		txfCidade2.setText("");
+		txfKM.setText("");
+	}
+	
+	//Validate data
+	private boolean validateData() throws Exception {
 		
 		if(txfCod1.getText().length() < 1) {
-			//JOptionPane.showMessageDialog(null, "Codigo 1 não informado.");
-			return false;
+			throw new Exception("Codigo Origem não informado.");
 		}
 		else if(txfCod2.getText().length() < 1) {
-			//JOptionPane.showMessageDialog(null, "Codigo 2 não informado.");
-			return false;
+			throw new Exception("Codigo Destino não informado.");
 		}
 		else if(txfCidade1.getText().length() < 1) {
-			//JOptionPane.showMessageDialog(null, "Cidade de origem não informado.");
-			return false;
+			throw new Exception("Cidade de Origem não informado.");
 		}
 		else if(txfCidade2.getText().length() < 1) {
-			//JOptionPane.showMessageDialog(null, "Cidade de origem não informado.");
-			return false;
+			throw new Exception("Cidade de Destino não informado.");
 		}
 		else if(txfKM.getText().length() < 1) {
-			//JOptionPane.showMessageDialog(null, "Distancia não informado.");
-			return false;
+			throw new Exception("Distância não informada.");
 		}
 		
 		return true;
