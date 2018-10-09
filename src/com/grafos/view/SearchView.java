@@ -1,11 +1,11 @@
 package com.grafos.view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,11 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import com.grafos.model.Configuration;
 
 public class SearchView extends JFrame {
+	private static final long serialVersionUID = -3940554669996360493L;
 	
 	/* BUSCAR */
 	private JTextField txfBuscar;
@@ -85,6 +87,8 @@ public class SearchView extends JFrame {
     	
     	txfBuscar = new JTextField();
     	txfBuscar.setBounds(70, 20, 500, 30);
+    	txfBuscar.setEditable(false);
+    	txfBuscar.setBackground(Color.WHITE);
     	getContentPane().add(txfBuscar);
     	
     	btnBuscar = new JButton();
@@ -92,15 +96,7 @@ public class SearchView extends JFrame {
     	btnBuscar.setText("Buscar");
     	getContentPane().add(btnBuscar);
     	
-    	btnBuscar.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				
-				//TO DO ACTION
-				
-			}
-			
-        });
+    	btnBuscar.addActionListener(btnSearchFileAction());
     	
     	/* Cidade 1 */
     	
@@ -170,21 +166,7 @@ public class SearchView extends JFrame {
     	btnAdiciona.setText("+");
     	getContentPane().add(btnAdiciona);
     	
-    	btnAdiciona.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if(validateData()) {
-						insertDistanceRow(txfCod1.getText(), txfCidade1.getText(), txfCod2.getText(), txfCidade2.getText(), txfKM.getText());
-						
-						resetFields();
-					}
-				} catch(Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage());
-				}
-			}
-			
-        });
+    	btnAdiciona.addActionListener(btnAddDistanceGridRow());
 
     	/* FINALIZACAO */
     	btnSalvar = new JButton();
@@ -198,25 +180,47 @@ public class SearchView extends JFrame {
     	getContentPane().add(btnProcessar);
     	
     	btnSalvar.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				
 				//TO DO ACTION
-				
 			}
-			
         });
     	
     	btnProcessar.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				
 				//TO DO ACTION
-				
 			}
-			
         });
-		
+	}
+	
+	private ActionListener btnAddDistanceGridRow() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(validateData()) {
+						insertDistanceRow(txfCod1.getText(), txfCidade1.getText(), txfCod2.getText(), txfCidade2.getText(), txfKM.getText());
+						
+						resetFields();
+					}
+				} catch(Exception exception) {
+					JOptionPane.showMessageDialog(null, exception.getMessage());
+				}
+			}
+        };
+	}
+	
+	private ActionListener btnSearchFileAction() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedFile = fileChooser();
+				if (selectedFile != null) {
+					txfBuscar.setText(selectedFile);
+				} else {
+					txfBuscar.setText("");
+					
+					resetDistanceGrid();
+				}
+			}
+        };
 	}
 	
 	private void createDistancesGrid() {
@@ -236,12 +240,15 @@ public class SearchView extends JFrame {
 	}
 	
 	private void insertDistanceRow(String originCityCode, String originCity, String destinationCityCode, String destinationCity, String distance) {
-		//TODO: Receber os parâmetros e montar o array de dados da linha
 		String[] rowData = { originCityCode, originCity, destinationCityCode, destinationCity, distance };
 		
 		distancesGridModel.insertRow(nextDistancesGridRow, rowData);
 		
 		nextDistancesGridRow++;
+	}
+	
+	private void resetDistanceGrid() {
+		distancesGridModel.removeRow(nextDistancesGridRow);
 	}
 	
 	private void resetFields() {
@@ -252,7 +259,6 @@ public class SearchView extends JFrame {
 		txfKM.setText("");
 	}
 	
-	//Validate data
 	private boolean validateData() throws Exception {
 		
 		if(txfCod1.getText().length() < 1) {
@@ -274,4 +280,16 @@ public class SearchView extends JFrame {
 		return true;
 	}
 	
+	private String fileChooser() {
+		JFileChooser chooser = new JFileChooser();
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("*.txt", "txt");
+	    chooser.setFileFilter(filter);
+	    int returnVal = chooser.showOpenDialog(null);
+
+	    if (returnVal == JFileChooser.APPROVE_OPTION) {
+	      return chooser.getSelectedFile().getPath().toString();
+	    }
+
+	    return null;
+	}
 }
