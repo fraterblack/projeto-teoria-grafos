@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import com.grafos.lib.FileDataManager;
 import com.grafos.model.Configuration;
 
 public class SearchView extends JFrame {
@@ -219,7 +220,7 @@ public class SearchView extends JFrame {
 				if (selectedFile != null) {
 					txfBuscar.setText(selectedFile);
 					
-					extractFileData(selectedFile)
+					FileDataManager.extractFileData(selectedFile)
 						.forEach(data -> insertDistanceRow(data[0], data[1], data[2], data[3], data[4]));
 				} else {
 					txfBuscar.setText("");
@@ -228,32 +229,6 @@ public class SearchView extends JFrame {
 				}
 			}
         };
-	}
-	
-	private List<String[]> extractFileData(String filePath) {
-		List<String[]> extractedData = new ArrayList<String[]>();
-		
-		try {
-			BufferedReader bufferArquivo = new BufferedReader(new FileReader(filePath));
-	
-			String linha = bufferArquivo.readLine();
-			
-			while (linha != null) {
-				if (!linha.isEmpty()) {
-					String[] rowData = linha.split(";");
-					
-					extractedData.add(rowData);
-				}
-				
-				linha = bufferArquivo.readLine();
-			}
-			
-			bufferArquivo.close();
-		} catch(Exception error) {
-			JOptionPane.showMessageDialog(null, "Arquivo inválido: " + error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
-		}
-		
-		return extractedData;
 	}
 	
 	private void createDistancesGrid() {
