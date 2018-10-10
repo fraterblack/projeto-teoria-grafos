@@ -3,6 +3,10 @@ package com.grafos.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -181,13 +185,13 @@ public class SearchView extends JFrame {
     	
     	btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TO DO ACTION
+				resetDistanceGrid();
 			}
         });
     	
     	btnProcessar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TO DO ACTION
+				resetDistanceGrid();
 			}
         });
 	}
@@ -202,7 +206,7 @@ public class SearchView extends JFrame {
 						resetFields();
 					}
 				} catch(Exception exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage());
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 				}
 			}
         };
@@ -214,6 +218,9 @@ public class SearchView extends JFrame {
 				String selectedFile = fileChooser();
 				if (selectedFile != null) {
 					txfBuscar.setText(selectedFile);
+					
+					extractFileData(selectedFile)
+						.forEach(data -> insertDistanceRow(data[0], data[1], data[2], data[3], data[4]));
 				} else {
 					txfBuscar.setText("");
 					
@@ -221,6 +228,32 @@ public class SearchView extends JFrame {
 				}
 			}
         };
+	}
+	
+	private List<String[]> extractFileData(String filePath) {
+		List<String[]> extractedData = new ArrayList<String[]>();
+		
+		try {
+			BufferedReader bufferArquivo = new BufferedReader(new FileReader(filePath));
+	
+			String linha = bufferArquivo.readLine();
+			
+			while (linha != null) {
+				if (!linha.isEmpty()) {
+					String[] rowData = linha.split(";");
+					
+					extractedData.add(rowData);
+				}
+				
+				linha = bufferArquivo.readLine();
+			}
+			
+			bufferArquivo.close();
+		} catch(Exception error) {
+			JOptionPane.showMessageDialog(null, "Arquivo inválido: " + error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+		}
+		
+		return extractedData;
 	}
 	
 	private void createDistancesGrid() {
@@ -248,7 +281,11 @@ public class SearchView extends JFrame {
 	}
 	
 	private void resetDistanceGrid() {
-		distancesGridModel.removeRow(nextDistancesGridRow);
+		for (int i = nextDistancesGridRow - 1; i >= 0; i--) {
+			distancesGridModel.removeRow(i);
+		}
+		
+		nextDistancesGridRow = 0;
 	}
 	
 	private void resetFields() {
