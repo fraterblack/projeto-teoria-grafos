@@ -3,7 +3,8 @@ package com.grafos.trayIcon;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class TrayIconApplication implements SubjectTrayIconInterface {
 	DatabaseManager dm = new DatabaseManager();
 	private Configuration configuration;
 	
-	private ArrayList<ObserverTrayIconInterface> observers = new ArrayList<ObserverTrayIconInterface>();
+	private Collection<ObserverTrayIconInterface> observers = new HashSet<ObserverTrayIconInterface>();
 	
 	private MenuItem configurationMenuItem;
 	private CheckboxMenuItem visibleCheckBox;

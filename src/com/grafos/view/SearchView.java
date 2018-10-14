@@ -3,10 +3,6 @@ package com.grafos.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -220,7 +216,8 @@ public class SearchView extends JFrame {
 				if (selectedFile != null) {
 					txfBuscar.setText(selectedFile);
 					
-					FileDataManager.extractFileData(selectedFile)
+					FileDataManager.extractFileData(selectedFile).stream()
+						.sorted((p1, p2) -> p1[0].compareTo(p2[0]))
 						.forEach(data -> insertDistanceRow(data[0], data[1], data[2], data[3], data[4]));
 				} else {
 					txfBuscar.setText("");
