@@ -1,34 +1,27 @@
 package com.grafos.model;
 
 public class City {
-	int cityId;
-	String CityName;
-	double distance;
+	int code;
+	String name;
 	
-	public int getCityId() {
-		return cityId;
-	}
-	public void setCityId(int cityId) {
-		this.cityId = cityId;
-	}
-	public String getCityName() {
-		return CityName;
-	}
-	public void setCityName(String cityName) {
-		CityName = cityName;
-	}
-	public double getDistance() {
-		return distance;
-	}
-	public void setDistance(double distance) {
-		this.distance = distance;
+	public int getCode() {
+		return code;
 	}
 	
-	public City(int cityId, String cityName, double distance) {
-		super();
-		this.cityId = cityId;
-		CityName = cityName;
-		this.distance = distance;
+	public void setCode(int code) {
+		this.code = code;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public City(int code, String name) {
+		this.code = code;
+		this.name = name;
+	}
 }
