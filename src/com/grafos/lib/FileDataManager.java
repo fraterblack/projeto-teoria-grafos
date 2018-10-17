@@ -8,22 +8,24 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 public class FileDataManager {
+	private final static String DATA_SEPARATOR = ";";
+	
 	public static Set<String[]> extractFileData(String filePath) {
 		Set<String[]> extractedData = new HashSet<String[]>();
 		
 		try {
 			BufferedReader bufferArquivo = new BufferedReader(new FileReader(filePath));
 	
-			String linha = bufferArquivo.readLine();
+			String lineData = bufferArquivo.readLine();
 			
-			while (linha != null) {
-				if (!linha.isEmpty()) {
-					String[] rowData = linha.split(";");
+			while (lineData != null) {
+				if (!lineData.isEmpty()) {
+					String[] rowData = lineData.split(DATA_SEPARATOR);
 					
 					extractedData.add(rowData);
 				}
 				
-				linha = bufferArquivo.readLine();
+				lineData = bufferArquivo.readLine();
 			}
 			
 			bufferArquivo.close();
