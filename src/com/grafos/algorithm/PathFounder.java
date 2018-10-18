@@ -72,8 +72,8 @@ public class PathFounder {
 			dij.findSmallestPath(6, 7);
 			
 			//Pega os caminhos percorridos
-			dij.getPathToDestination().forEach((key, path) -> {
-				System.out.println(path.getNodeOrigin() + "->" + path.getNodeDestin() + "=" + path.getDistance());
+			dij.getPathToDestination().forEach((key, edge) -> {
+				System.out.println(edge.getNodeOrigin() + "->" + edge.getNodeDestin() + "=" + edge.getDistance());
 			});
 			
 			//Pega o total de distância até o destino

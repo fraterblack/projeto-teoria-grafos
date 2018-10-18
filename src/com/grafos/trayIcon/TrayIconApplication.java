@@ -39,7 +39,7 @@ public class TrayIconApplication implements SubjectTrayIconInterface {
 	}
 	
 	public SearchView openSearchView(Configuration config) {
-		SearchView searchView = new SearchView(config);
+		searchView = new SearchView(config);
 
 		searchView.addWindowListener(new WindowAdapter() {
     		public void windowClosed(WindowEvent e) {
@@ -54,6 +54,12 @@ public class TrayIconApplication implements SubjectTrayIconInterface {
 		visibleCheckBox.setState(true);
 		
 		return searchView;
+	}
+	
+	public void closeSearchView() {
+		searchView.setVisible(false);
+		
+		visibleCheckBox.setState(false);
 	}
 	
 	public ConfigurationView openConfigurationView() {

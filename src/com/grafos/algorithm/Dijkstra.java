@@ -9,7 +9,7 @@ public class Dijkstra extends Graph {
 	
 	//Results
 	private int distanceToDestination = 0;
-	private TreeMap<Integer, Path> pathToDestination;
+	private TreeMap<Integer, Edge> pathToDestination;
 
 	// Fila de prioridade.
 	private HashSet<Integer> edgesRemaining = new HashSet<Integer>();
@@ -48,7 +48,7 @@ public class Dijkstra extends Graph {
 		return distanceToDestination;
 	}
 	
-	public TreeMap<Integer,Path> getPathToDestination() {
+	public TreeMap<Integer,Edge> getPathToDestination() {
 		return pathToDestination;
 	}
 
@@ -74,8 +74,8 @@ public class Dijkstra extends Graph {
 	 * Extrai o menor caminho a ser seguido.
 	 * @return TreeMap<Integer, Path>
 	 */
-	private TreeMap<Integer, Path> extractSmallestPathTo(int origin, int destin) {
-		TreeMap<Integer, Path> paths = new TreeMap<Integer, Path>();
+	private TreeMap<Integer, Edge> extractSmallestPathTo(int origin, int destin) {
+		TreeMap<Integer, Edge> paths = new TreeMap<Integer, Edge>();
 		
 		boolean smallestPathFound = false;
 		int nodeOrigin = origin;
@@ -98,7 +98,7 @@ public class Dijkstra extends Graph {
 
 			//Se o menor caminho ainda não foi encontrado
 			if (!smallestPathFound && smallValue > 0) {
-				paths.put(paths.size(), new Path(nodeOrigin, nodeWithSmallestWeight, smallValue));
+				paths.put(paths.size(), new Edge(nodeOrigin, nodeWithSmallestWeight, smallValue));
 				
 				//variável de controler para saber o último vértice na próxima iteração
 				nodeOrigin = nodeWithSmallestWeight;

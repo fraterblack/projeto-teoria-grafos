@@ -1,11 +1,11 @@
 package com.grafos.algorithm;
 
-public class Path {
+public class Edge {
 	private Integer nodeOrigin;
 	private Integer nodeDestin;
 	private Integer distance;
 	
-	public Path(Integer nodeOrigin, Integer nodeDestin, Integer distance) {
+	public Edge(Integer nodeOrigin, Integer nodeDestin, Integer distance) {
 		this.nodeOrigin = nodeOrigin;
 		this.nodeDestin = nodeDestin;
 		this.distance = distance;

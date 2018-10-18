@@ -23,24 +23,24 @@ public class SearchView extends JFrame {
 	private static final long serialVersionUID = -3940554669996360493L;
 	
 	/* BUSCAR */
-	private JTextField txfBuscar;
-	private JLabel lbBuscar;
-	private JButton btnBuscar;
+	private JTextField txfSearch;
+	private JLabel lblSearch;
+	private JButton buttonSearch;
 	
 	/* CIDADE 1 */
-	private JTextField txfCod1;
-	private JTextField txfCidade1;
-	private JLabel lbCod1;
-	private JLabel lbCidade1;
-	private JLabel lbDescricao1;
+	private JTextField txfCodOrigin;
+	private JTextField txfCityOrigin;
+	private JLabel lblCodOrigin;
+	private JLabel lblCityOrigin;
+	private JLabel lblDescOrigin;
 	
 	
 	/* CIDADE 2 */
-	private JTextField txfCod2;
-	private JTextField txfCidade2;
-	private JLabel lbCod2;
-	private JLabel lbCidade2;
-	private JLabel lbDescricao2;
+	private JTextField txfCodDestin;
+	private JTextField txfCityDestin;
+	private JLabel lblCodDestin;
+	private JLabel lblCityDestin;
+	private JLabel lblDescDestin;
 	
 	/* KM */
 	private JTextField txfKM;
@@ -48,7 +48,7 @@ public class SearchView extends JFrame {
 	
 	
 	/* ADD */
-	private JButton btnAdiciona;
+	private JButton buttonAdd;
 	
 	/* GRID */
 	private int nextDistancesGridRow = 0;
@@ -56,8 +56,8 @@ public class SearchView extends JFrame {
 	private DefaultTableModel distancesGridModel = new DefaultTableModel();
 	
 	/* FINALIZACAO */
-	private JButton btnSalvar;
-	private JButton btnProcessar;
+	private JButton buttonSave;
+	private JButton buttonProcess;
 	private JTable distancesGridTable;
 	
 	public void setConfigView() {
@@ -81,73 +81,73 @@ public class SearchView extends JFrame {
 	public void createComponents() {
 		
 		/* BUSCAR */
-		lbBuscar = new JLabel();
-		lbBuscar.setBounds(20, 20, 60, 30);
-		lbBuscar.setText("Buscar:");
-    	getContentPane().add(lbBuscar);
+		lblSearch = new JLabel();
+		lblSearch.setBounds(20, 20, 60, 30);
+		lblSearch.setText("Buscar:");
+    	getContentPane().add(lblSearch);
     	
-    	txfBuscar = new JTextField();
-    	txfBuscar.setBounds(70, 20, 500, 30);
-    	txfBuscar.setEditable(false);
-    	txfBuscar.setBackground(Color.WHITE);
-    	getContentPane().add(txfBuscar);
+    	txfSearch = new JTextField();
+    	txfSearch.setBounds(70, 20, 500, 30);
+    	txfSearch.setEditable(false);
+    	txfSearch.setBackground(Color.WHITE);
+    	getContentPane().add(txfSearch);
     	
-    	btnBuscar = new JButton();
-    	btnBuscar.setBounds(580, 20, 100, 30);
-    	btnBuscar.setText("Buscar");
-    	getContentPane().add(btnBuscar);
+    	buttonSearch = new JButton();
+    	buttonSearch.setBounds(580, 20, 100, 30);
+    	buttonSearch.setText("Buscar");
+    	getContentPane().add(buttonSearch);
     	
-    	btnBuscar.addActionListener(btnSearchFileAction());
+    	buttonSearch.addActionListener(btnSearchFileAction());
     	
     	/* Cidade 1 */
     	
-    	lbCod1 = new JLabel();
-    	lbCod1.setBounds(20,70,45,30);
-    	lbCod1.setText("Codigo:");
-		getContentPane().add(lbCod1);
+    	lblCodOrigin = new JLabel();
+    	lblCodOrigin.setBounds(20,70,45,30);
+    	lblCodOrigin.setText("Codigo:");
+		getContentPane().add(lblCodOrigin);
 		
-		txfCod1 = new JTextField();
-		txfCod1.setBounds(70, 70, 100, 30);
-    	getContentPane().add(txfCod1);
+		txfCodOrigin = new JTextField();
+		txfCodOrigin.setBounds(70, 70, 100, 30);
+    	getContentPane().add(txfCodOrigin);
     	
-    	lbCidade1 = new JLabel();
-    	lbCidade1.setBounds(180,70,45,30);
-    	lbCidade1.setText("Cidade:");
-		getContentPane().add(lbCidade1);
+    	lblCityOrigin = new JLabel();
+    	lblCityOrigin.setBounds(180,70,45,30);
+    	lblCityOrigin.setText("Cidade:");
+		getContentPane().add(lblCityOrigin);
 		
-		txfCidade1 = new JTextField();
-		txfCidade1.setBounds(230, 70, 100, 30);
-    	getContentPane().add(txfCidade1);
+		txfCityOrigin = new JTextField();
+		txfCityOrigin.setBounds(230, 70, 100, 30);
+    	getContentPane().add(txfCityOrigin);
     	
-    	lbDescricao1 = new JLabel();
-    	lbDescricao1.setBounds(350, 70, 100, 30);
-    	lbDescricao1.setText("(ORIGEM)");
-    	getContentPane().add(lbDescricao1);
+    	lblDescOrigin = new JLabel();
+    	lblDescOrigin.setBounds(350, 70, 100, 30);
+    	lblDescOrigin.setText("(ORIGEM)");
+    	getContentPane().add(lblDescOrigin);
     	
     	/* Cidade 2 */
     	
-    	lbCod2 = new JLabel();
-    	lbCod2.setBounds(20,110,45,30);
-    	lbCod2.setText("Codigo:");
-		getContentPane().add(lbCod2);
+    	lblCodDestin = new JLabel();
+    	lblCodDestin.setBounds(20,110,45,30);
+    	lblCodDestin.setText("Codigo:");
+		getContentPane().add(lblCodDestin);
 		
-		txfCod2 = new JTextField();
-		txfCod2.setBounds(70, 110, 100, 30);
-    	getContentPane().add(txfCod2);
+		txfCodDestin = new JTextField();
+		txfCodDestin.setBounds(70, 110, 100, 30);
+    	getContentPane().add(txfCodDestin);
     	
-    	lbCidade2 = new JLabel();
-    	lbCidade2.setBounds(180,110,45,30);
-    	lbCidade2.setText("Cidade:");
-		getContentPane().add(lbCidade2);
+    	lblCityDestin = new JLabel();
+    	lblCityDestin.setBounds(180,110,45,30);
+    	lblCityDestin.setText("Cidade:");
+		getContentPane().add(lblCityDestin);
 		
-		txfCidade2 = new JTextField();
-		txfCidade2.setBounds(230, 110, 100, 30);
-    	getContentPane().add(txfCidade2);
+		txfCityDestin = new JTextField();
+		txfCityDestin.setBounds(230, 110, 100, 30);
+    	getContentPane().add(txfCityDestin);
     	
-    	lbDescricao2 = new JLabel();
-    	lbDescricao2.setBounds(350, 110, 100, 30);
-    	lbDescricao2.setText("(DESTINO)");
-    	getContentPane().add(lbDescricao2);
+    	lblDescDestin = new JLabel();
+    	lblDescDestin.setBounds(350, 110, 100, 30);
+    	lblDescDestin.setText("(DESTINO)");
+    	getContentPane().add(lblDescDestin);
 		
     	/* KM */
     	
@@ -162,31 +162,31 @@ public class SearchView extends JFrame {
     	
     	/* ADD */
     	
-    	btnAdiciona = new JButton();
-    	btnAdiciona.setBounds(770, 150, 50, 30);
-    	btnAdiciona.setText("+");
-    	getContentPane().add(btnAdiciona);
+    	buttonAdd = new JButton();
+    	buttonAdd.setBounds(770, 150, 50, 30);
+    	buttonAdd.setText("+");
+    	getContentPane().add(buttonAdd);
     	
-    	btnAdiciona.addActionListener(btnAddDistanceGridRow());
+    	buttonAdd.addActionListener(btnAddDistanceGridRow());
 
     	/* FINALIZACAO */
-    	btnSalvar = new JButton();
-    	btnSalvar.setBounds(500, 475, 150, 30);
-    	btnSalvar.setText("SALVAR");
-    	getContentPane().add(btnSalvar);
+    	buttonSave = new JButton();
+    	buttonSave.setBounds(500, 475, 150, 30);
+    	buttonSave.setText("SALVAR");
+    	getContentPane().add(buttonSave);
     	
-    	btnProcessar = new JButton();
-    	btnProcessar.setBounds(670, 475, 150, 30);
-    	btnProcessar.setText("PROCESSAR");
-    	getContentPane().add(btnProcessar);
+    	buttonProcess = new JButton();
+    	buttonProcess.setBounds(670, 475, 150, 30);
+    	buttonProcess.setText("PROCESSAR");
+    	getContentPane().add(buttonProcess);
     	
-    	btnSalvar.addActionListener(new ActionListener() {
+    	buttonSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				resetDistanceGrid();
 			}
         });
     	
-    	btnProcessar.addActionListener(new ActionListener() {
+    	buttonProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				resetDistanceGrid();
 			}
@@ -198,7 +198,7 @@ public class SearchView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(validateData()) {
-						insertDistanceRow(txfCod1.getText(), txfCidade1.getText(), txfCod2.getText(), txfCidade2.getText(), txfKM.getText());
+						insertDistanceRow(txfCodOrigin.getText(), txfCityOrigin.getText(), txfCodDestin.getText(), txfCityDestin.getText(), txfKM.getText());
 						
 						resetFields();
 					}
@@ -214,13 +214,13 @@ public class SearchView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String selectedFile = fileChooser();
 				if (selectedFile != null) {
-					txfBuscar.setText(selectedFile);
+					txfSearch.setText(selectedFile);
 					
 					FileDataManager.extractFileData(selectedFile).stream()
 						.sorted((p1, p2) -> p1[0].compareTo(p2[0]))
 						.forEach(data -> insertDistanceRow(data[0], data[1], data[2], data[3], data[4]));
 				} else {
-					txfBuscar.setText("");
+					txfSearch.setText("");
 					
 					resetDistanceGrid();
 				}
@@ -261,25 +261,25 @@ public class SearchView extends JFrame {
 	}
 	
 	private void resetFields() {
-		txfCod1.setText("");
-		txfCidade1.setText("");
-		txfCod2.setText("");
-		txfCidade2.setText("");
+		txfCodOrigin.setText("");
+		txfCityOrigin.setText("");
+		txfCodDestin.setText("");
+		txfCityDestin.setText("");
 		txfKM.setText("");
 	}
 	
 	private boolean validateData() throws Exception {
 		
-		if(txfCod1.getText().length() < 1) {
+		if(txfCodOrigin.getText().length() < 1) {
 			throw new Exception("Codigo Origem não informado.");
 		}
-		else if(txfCod2.getText().length() < 1) {
+		else if(txfCodDestin.getText().length() < 1) {
 			throw new Exception("Codigo Destino não informado.");
 		}
-		else if(txfCidade1.getText().length() < 1) {
+		else if(txfCityOrigin.getText().length() < 1) {
 			throw new Exception("Cidade de Origem não informado.");
 		}
-		else if(txfCidade2.getText().length() < 1) {
+		else if(txfCityDestin.getText().length() < 1) {
 			throw new Exception("Cidade de Destino não informado.");
 		}
 		else if(txfKM.getText().length() < 1) {

@@ -1,7 +1,10 @@
 package com.grafos.controller;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.grafos.lib.DatabaseManager;
@@ -9,10 +12,12 @@ import com.grafos.model.Configuration;
 import com.grafos.observer.ObserverTrayIconInterface;
 import com.grafos.trayIcon.TrayIconApplication;
 import com.grafos.view.ConfigurationView;
+import com.grafos.view.SearchView;
 
 public class MainController implements ObserverTrayIconInterface {
 	DatabaseManager dm = new DatabaseManager();
 	Configuration configuration;
+	private SearchView activeSearchView;
 	
 	public void initialize() {
     	//Verifica se existe configuração
@@ -20,21 +25,32 @@ public class MainController implements ObserverTrayIconInterface {
     		//chama a view para criar a configuração
     		ConfigurationView configurationView = new ConfigurationView();
     		configurationView.setVisible(true);
+    		
+    		configurationView.addWindowListener(new WindowAdapter() {
+        		public void windowClosed(WindowEvent e) {
+        			initialize();
+        		}
+    		});
+    		
     		return;
     	}
     	
     	configuration = dm.getConfig();
     	
-    	//Inicializa o Tray Icon
-    	TrayIconApplication trayIcon = new TrayIconApplication();
-    	trayIcon.initialize();
-    	trayIcon.addObserver(this);
-    	
-		if (configuration.getAutomatic()) {
-			startThread();
-		} else {
-			trayIcon.openSearchView(configuration);
-		}
+    	if (configuration != null) {
+    		//Inicializa o Tray Icon
+        	TrayIconApplication trayIcon = new TrayIconApplication();
+        	trayIcon.initialize();
+        	trayIcon.addObserver(this);
+        	
+    		if (configuration.getAutomatic()) {
+    			startThread();
+    		} else {
+    			activeSearchView = trayIcon.openSearchView(configuration);
+    		}
+    	} else {
+    		JOptionPane.showMessageDialog(null, "O programa não pode ser inicializado: Arquivo de configuração corrompido.", "", JOptionPane.ERROR_MESSAGE, null);
+    	}
 	}
 	
 	public void update(TrayIconApplication trayIcon) {
@@ -43,6 +59,10 @@ public class MainController implements ObserverTrayIconInterface {
 		
 		//Caso a nova configuração "ative" o modo automático, inicia a thread
 		if (trayIcon.getConfiguration().getAutomatic() && !oldConfiguration.getAutomatic()) {
+			if (activeSearchView != null) {
+				trayIcon.closeSearchView();
+			}
+			
 			startThread();
 		}
 	}
@@ -61,7 +81,7 @@ public class MainController implements ObserverTrayIconInterface {
 			public void run() {
 				try {				
 					while (!Thread.currentThread().isInterrupted() && configuration.getAutomatic()) {
-						/* TA BUGANDO: Novidade Roger!?! */
+						System.out.println("Thread");
 						File folder = new File(configuration.getFolder());
 						for (String file : folder.list()) {
 							if (file.endsWith(".txt") && !file.contains("-processing")) {
