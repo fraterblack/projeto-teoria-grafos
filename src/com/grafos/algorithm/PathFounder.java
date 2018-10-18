@@ -58,17 +58,12 @@ public class PathFounder {
 				throw new Exception("Caminhos não indicados.");
 			}
 			
-			createGraphElements();
 			
-			/*
 			Dijkstra dij = new Dijkstra(valuesOfMatrix.size());
 			
-			//Percorre itens e adiciona as arestas
-			//FOR
-			dij.insertEdge(0, 1, 4);
-			//ENDFOR
+			//Adiciona os caminhos no Dijkstra
+			createDijkstraElements(dij);
 			
-			//Procura o menor caminho de um nó de origem até o nó de destino
 			dij.findSmallestPath(6, 7);
 			
 			//Pega os caminhos percorridos
@@ -78,7 +73,7 @@ public class PathFounder {
 			
 			//Pega o total de distância até o destino
 			System.out.println(dij.getDistanceToDestination());
-			*/
+			
 			// result = execute djikstra
 
 		} catch (Exception e) {
@@ -88,9 +83,21 @@ public class PathFounder {
 		return result;
 	}
 
-	public void createGraphElements() {
+	public void createDijkstraElements(Dijkstra dij) {
 
-		// foreach(paths as)
+		for(Path path: paths) {
+			try {
+				
+				dij.insertEdge(valuesOfMatrix.get(path.getStart()),
+							valuesOfMatrix.get(path.getFinish()),
+							path.getDistance());
+				
+			} catch (Exception e) {
+				
+				System.out.println("ERRO: Erro ao tentar adicionar edge");
+				
+			}
+		}
 
 	}
 
