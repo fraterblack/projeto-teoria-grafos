@@ -44,7 +44,7 @@ public class Dijkstra extends Graph {
 		distanceToDestination = distances[destin];
 	}
 	
-	public int getDistanceToDestination() {
+	public Integer getDistanceToDestination() {
 		return distanceToDestination;
 	}
 	

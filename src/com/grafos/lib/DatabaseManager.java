@@ -24,9 +24,9 @@ public class DatabaseManager {
 			buffWrite = new BufferedWriter(new FileWriter(FILECONFIG));
 			String line = "";
 
-			line += config.getFolder() + "\n";
-			line += config.getSucess() + "\n";
-			line += config.getError() + "\n";
+			line += config.getRootFolder() + "\n";
+			line += config.getSuccessFolder() + "\n";
+			line += config.getErrorFolder() + "\n";
 			line += config.getAutomatic() + "\n";
 
 			// criar integridade dos arquivos
@@ -44,9 +44,9 @@ public class DatabaseManager {
 
 	// create all folders (using other function)
 	private void createConfigurationsFolders(Configuration config) {
-		createSingleFolder(config.getFolder());
-		createSingleFolder(config.getFolder() + "//" + config.getError());
-		createSingleFolder(config.getFolder() + "//" + config.getSucess());
+		createSingleFolder(config.getRootFolder());
+		createSingleFolder(config.getRootFolder() + "//" + config.getErrorFolder());
+		createSingleFolder(config.getRootFolder() + "//" + config.getSuccessFolder());
 
 	}
 
@@ -115,7 +115,7 @@ public class DatabaseManager {
 	// gera um hash em md5 com as configuracoes
 	public String createHash(Configuration config) {
 		try {
-			String s = config.getFolder() + config.getSucess() + config.getError() + config.getAutomatic()
+			String s = config.getRootFolder() + config.getSuccessFolder() + config.getErrorFolder() + config.getAutomatic()
 					+ "NERF PROTOSS";
 
 			MessageDigest m;

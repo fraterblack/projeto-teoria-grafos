@@ -2,16 +2,13 @@ package com.grafos.lib;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.swing.JOptionPane;
+import java.util.TreeMap;
 
 public class FileDataManager {
 	private final static String DATA_SEPARATOR = ";";
 	
-	public static Set<String[]> extractFileData(String filePath) {
-		Set<String[]> extractedData = new HashSet<String[]>();
+	public static TreeMap<Integer, String[]> extractFileData(String filePath) throws Exception {
+		TreeMap<Integer, String[]> extractedData = new TreeMap<Integer, String[]>();
 		
 		try {
 			BufferedReader bufferArquivo = new BufferedReader(new FileReader(filePath));
@@ -22,7 +19,7 @@ public class FileDataManager {
 				if (!lineData.isEmpty()) {
 					String[] rowData = lineData.split(DATA_SEPARATOR);
 					
-					extractedData.add(rowData);
+					extractedData.put(extractedData.size(), rowData);
 				}
 				
 				lineData = bufferArquivo.readLine();
@@ -30,7 +27,7 @@ public class FileDataManager {
 			
 			bufferArquivo.close();
 		} catch(Exception error) {
-			JOptionPane.showMessageDialog(null, "Arquivo inválido: " + error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+			throw new Exception("Arquivo inválido: " + error.getMessage());
 		}
 		
 		return extractedData;

@@ -1,47 +1,31 @@
 package com.grafos.model;
 
 public class Configuration {
-	private String folder;
-	private String sucess;
-	private String error;
+	private String rootFolder;
+	private String successFolder;
+	private String errorFolder;
 	private Boolean automatic = false;
 
 	public Configuration(String folder, String sucess, String error, Boolean automatic) {
-		this.folder = folder;
-		this.sucess = sucess;
-		this.error = error;
+		this.rootFolder = folder;
+		this.successFolder = sucess;
+		this.errorFolder = error;
 		this.automatic = automatic;
 	}
 	
-	public String getFolder() {
-		return folder;
+	public String getRootFolder() {
+		return rootFolder;
 	}
 	
-	public void setFolder(String folder) {
-		this.folder = folder;
+	public String getSuccessFolder() {
+		return successFolder;
 	}
 	
-	public String getSucess() {
-		return sucess;
-	}
-	
-	public void setSucess(String sucess) {
-		this.sucess = sucess;
-	}
-	
-	public String getError() {
-		return error;
-	}
-	
-	public void setError(String error) {
-		this.error = error;
+	public String getErrorFolder() {
+		return errorFolder;
 	}
 	
 	public Boolean getAutomatic() {
 		return automatic;
-	}
-
-	public void setAutomatic(Boolean automatic) {
-		this.automatic = automatic;
 	}
 }

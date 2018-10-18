@@ -112,9 +112,9 @@ public class ConfigurationView extends JFrame {
 		// seta os valores já existentes da configuração
 		if (db.hasConfig()) {
 			Configuration config = db.getConfig();
-			txfErrorFolder.setText(config.getError());
-			tfxRootDirectory.setText(config.getFolder());
-			txfSuccessFolder.setText(config.getSucess());
+			txfErrorFolder.setText(config.getErrorFolder());
+			tfxRootDirectory.setText(config.getRootFolder());
+			txfSuccessFolder.setText(config.getSuccessFolder());
 			ckbAutomaticRoute.setSelected(config.getAutomatic());
 		} else {
 			setPlaceholder(txfSuccessFolder, DEFAULT_SUCCESS_FOLDER);

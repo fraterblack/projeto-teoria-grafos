@@ -216,9 +216,12 @@ public class SearchView extends JFrame {
 				if (selectedFile != null) {
 					txfSearch.setText(selectedFile);
 					
-					FileDataManager.extractFileData(selectedFile).stream()
-						.sorted((p1, p2) -> p1[0].compareTo(p2[0]))
-						.forEach(data -> insertDistanceRow(data[0], data[1], data[2], data[3], data[4]));
+					try {
+						FileDataManager.extractFileData(selectedFile)
+							.forEach((key, data) -> insertDistanceRow(data[0], data[1], data[2], data[3], data[4]));
+					} catch (Exception error) {
+						JOptionPane.showMessageDialog(null, error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+					}
 				} else {
 					txfSearch.setText("");
 					
