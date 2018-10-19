@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import com.grafos.algorithm.PathFounder;
 import com.grafos.lib.FileDataManager;
 import com.grafos.model.Configuration;
 
@@ -188,6 +189,32 @@ public class SearchView extends JFrame {
     	
     	buttonProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//Chamar o djkistra
+				//System.out.println(distancesGridTable.getModel().getValueAt(rowIndex, columnIndex)(0));
+				try {
+					PathFounder pf = new PathFounder();
+					
+					for(Integer i=0;i<distancesGridTable.getRowCount();i++) {
+						//TODO criar um path() e criar uma copia da funcao add para receber um path
+						String[] path = new String[5];
+						for(Integer j=0;j<5;j++) {
+							path[j] = (String) distancesGridTable.getValueAt(i, j);
+						}
+						pf.add(path);
+					}
+					
+					String result = pf.foundSmallerPath();
+					
+					JOptionPane.showMessageDialog(null, "Distancia: "+result);
+				} catch(Exception exception) {
+					//TODO exception
+				}
+				
+				
+				
+				
+				
 				resetDistanceGrid();
 			}
         });

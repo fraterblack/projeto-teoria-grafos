@@ -54,8 +54,10 @@ public class PathFounder {
 
 			// Adiciona os caminhos no Dijkstra
 			createDijkstraElements(dij);
-
-			dij.findSmallestPath(6, 7);
+			
+			//Pega o Index do começo do primeiro caminho e o final do ultimo caminho
+			dij.findSmallestPath(valuesOfMatrix.get(paths.get(0).getStart()), 
+									valuesOfMatrix.get(paths.get(paths.size() - 1).getFinish()));
 
 			// Pega os caminhos percorridos
 			dij.getPathToDestination().forEach((key, edge) -> {
