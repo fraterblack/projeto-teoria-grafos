@@ -39,7 +39,9 @@ public class MainController implements ObserverTrayIconInterface {
     		
     		configurationView.addWindowListener(new WindowAdapter() {
         		public void windowClosed(WindowEvent e) {
-        			initialize();
+        			if (dm.hasConfig()) {
+        				initialize();
+        			}
         		}
     		});
     		
