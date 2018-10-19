@@ -27,7 +27,7 @@ public class PathFounder {
 				Integer.parseInt(data[4]));
 
 		paths.add(path);
-
+		/* REFATORADO
 		// verify if already exist the key
 		if (!valuesOfMatrix.containsKey(Integer.parseInt(data[0]))) {
 			valuesOfMatrix.put(Integer.parseInt(data[0]), index);
@@ -37,6 +37,17 @@ public class PathFounder {
 		// verify if already exist the key
 		if (!valuesOfMatrix.containsKey(Integer.parseInt(data[2]))) {
 			valuesOfMatrix.put(Integer.parseInt(data[2]), index);
+			index++;
+		}*/
+		
+		addNewCityCodeInTheHashMap(Integer.parseInt(data[2]));
+		addNewCityCodeInTheHashMap(Integer.parseInt(data[2]));
+		
+	}
+	
+	public void addNewCityCodeInTheHashMap(Integer cityNumber) {
+		if(!valuesOfMatrix.containsValue(cityNumber)) {
+			valuesOfMatrix.put(index, cityNumber);
 			index++;
 		}
 	}
