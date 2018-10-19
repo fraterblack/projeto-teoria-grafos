@@ -67,9 +67,6 @@ public class PathFounder {
 			// Pega o total de distância até o destino
 			System.out.println(dij.getDistanceToDestination());
 
-			// result = execute djikstra
-			
-			//TODO: Tem que melhorar esse código Roger!!!
 			result = dij.getDistanceToDestination().toString();
 
 		} catch (Exception error) {
