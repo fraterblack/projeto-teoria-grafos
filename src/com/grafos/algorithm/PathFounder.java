@@ -20,7 +20,7 @@ public class PathFounder {
 
 	public void add(String[] data) throws Exception {
 		if (data.length != 5) {
-			throw new Exception("Dados informados incorretamente.");
+			throw new Exception("O arquivo contém dados inválidos");
 		}
 
 		Path path = new Path(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]), data[3],
@@ -59,7 +59,7 @@ public class PathFounder {
 
 			// Pega os caminhos percorridos
 			dij.getPathToDestination().forEach((key, edge) -> {
-				System.out.println(edge.getNodeOrigin() + "->" + edge.getNodeDestin() + "=" + edge.getDistance());
+				System.out.println(edge.getNodeOrigin() + "->" + edge.getNodeDestin() + "=" + edge.getAccumulatedDistance());
 			});
 
 			// Pega o total de distância até o destino

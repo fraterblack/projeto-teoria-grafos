@@ -19,7 +19,7 @@ public class Edge {
 		return nodeDestin;
 	}
 
-	public Integer getDistance() {
+	public Integer getAccumulatedDistance() {
 		return distance;
 	}
 }
