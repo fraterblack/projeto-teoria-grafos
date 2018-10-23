@@ -9,6 +9,16 @@ public class PathFounder {
 	private TreeMap<Integer, String> cities = new TreeMap<Integer, String>();
 	private TreeMap<String, Integer> nodeIndexes = new TreeMap<String, Integer>();
 	
+	public Path[] getPaths() {
+		Path[] the_paths = new Path[paths.size()];
+		
+		for(Integer i=0;i<paths.size();i++) {
+			the_paths[i] = paths.get(i);
+		}
+		
+		return the_paths;
+	}
+	
 	public void add(String[] data) throws Exception {
 		if (data.length != 5) {
 			throw new Exception("O arquivo contém dados inválidos");

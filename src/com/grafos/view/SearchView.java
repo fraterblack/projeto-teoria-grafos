@@ -22,7 +22,9 @@ import com.grafos.model.Configuration;
 
 public class SearchView extends JFrame {
 	private static final long serialVersionUID = -3940554669996360493L;
-
+	
+	Configuration config;
+	
 	/* BUSCAR */
 	private JTextField txfSearch;
 	private JLabel lblSearch;
@@ -72,7 +74,7 @@ public class SearchView extends JFrame {
 
 	public SearchView(Configuration config) {
 		setConfigView();
-
+		this.config = config;
 		createComponents();
 		createDistancesGrid();
 
@@ -185,6 +187,8 @@ public class SearchView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: GERA O ARQUIVO APARTIR DOS DADOS DA GRID
 				
+				
+				
 				try {
 					PathFounder founder = new PathFounder();
 
@@ -200,13 +204,12 @@ public class SearchView extends JFrame {
 
 					String result = founder.foundSmallerPath();
 					
-					//TODO: GRAVA MENSAGEM DE SUCESSO
+					FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() + "\\" + config.getSuccessFolder(), result);
 
-					//TODO: MOVE ARQUIVO GERADO PARA A PASTA SUCESSO
-				} catch (Exception error) {
-					//TODO: GRAVA MENSAGEM DE ERRO
 					
-					//TODO: MOVE ARQUIVO GERADO PARA PASTA DE ERRO
+				} catch (Exception error) {
+					//TODO ARRUAMR ERRO
+					//FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() + config.getErrorFolder(), error.getMessage());
 				}
 				
 				txfSearch.setText("");
