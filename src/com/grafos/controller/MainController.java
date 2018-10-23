@@ -108,7 +108,7 @@ public class MainController implements ObserverTrayIconInterface {
 								try {
 									//Extrai dados do arquivo
 									TreeMap<Integer, String[]> extractedData = FileDataManager.extractFileData(filePath);
-									
+								
 									//Instância a classe que encontra o menor caminho
 									PathFounder founder = new PathFounder();
 									
@@ -118,7 +118,7 @@ public class MainController implements ObserverTrayIconInterface {
 											try {
 												founder.add(data);
 									        } catch(Exception e) {
-									        	throw new RuntimeException(e);
+									        	throw new RuntimeException(e.getMessage());
 									        }
 										});
 									
@@ -127,20 +127,20 @@ public class MainController implements ObserverTrayIconInterface {
 									
 									//SUCESSO
 									//Guarda o resultado no final do arquivo
-									//writeMessageInFile(filePath, result);
+									writeMessageInFile(filePath, result);
 									
 									//Move arquivo
-									//Files.move(source, successPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
+									Files.move(source, successPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
 								} catch (Exception error) {
 									//EM CASO DE ERRO
 									//Adiciona a mensagem de erro no final do arquivo
-									//writeMessageInFile(filePath, error.getMessage());
+									writeMessageInFile(filePath, error.getMessage());
 									
 									//Move arquivo
-									//Files.move(source, errorPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
+									Files.move(source, errorPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
 								}
 								
-								//Interrompe o laco, pois a aplicação processa um arquivo por vez
+								//Interrompe o laço, pois a aplicação processa um arquivo por vez
 								break;
 							}
 						}

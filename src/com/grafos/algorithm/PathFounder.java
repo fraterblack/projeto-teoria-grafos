@@ -1,90 +1,55 @@
 package com.grafos.algorithm;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import com.grafos.model.Path;
 
 public class PathFounder {
-
-	HashMap<Integer, Integer> valuesOfMatrix;
-	Integer index = 0;
-	ArrayList<Path> paths;
-
-	Graph graph;
-
-	public PathFounder() {
-		paths = new ArrayList<Path>();
-		valuesOfMatrix = new HashMap<Integer, Integer>();
-	}
-
+	private TreeMap<Integer, Path> paths = new TreeMap<Integer, Path>();
+	private TreeMap<Integer, String> cities = new TreeMap<Integer, String>();
+	private TreeMap<String, Integer> nodeIndexes = new TreeMap<String, Integer>();
+	
 	public void add(String[] data) throws Exception {
 		if (data.length != 5) {
 			throw new Exception("O arquivo contém dados inválidos");
 		}
-
-		Path path = new Path(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]), data[3],
+		
+		Path path = new Path(data[0], data[1], data[2], data[3],
 				Integer.parseInt(data[4]));
-
-		paths.add(path);
-		// REFATORADO
-		// verify if already exist the key
-		if (!valuesOfMatrix.containsKey(Integer.parseInt(data[0]))) {
-			valuesOfMatrix.put(Integer.parseInt(data[0]), index);
-			index++;
-		}
-
-		// verify if already exist the key
-		if (!valuesOfMatrix.containsKey(Integer.parseInt(data[2]))) {
-			valuesOfMatrix.put(Integer.parseInt(data[2]), index);
-			index++;
-		}
 		
-		//addNewCityCodeInTheHashMap(Integer.parseInt(data[0]));
-		//addNewCityCodeInTheHashMap(Integer.parseInt(data[2]));
+		paths.put(paths.size(), path);
 		
-	}
-	
-	public void addNewCityCodeInTheHashMap(Integer cityNumber) {
-		if(!valuesOfMatrix.containsValue(cityNumber)) {
-			valuesOfMatrix.put(index, cityNumber);
-			index++;
-		}
+		extractDataFromPath(path);
 	}
 
 	public String foundSmallerPath(Integer origin, Integer destination) throws Exception {
 		String result = "";
 
 		try {
-
-			if (paths.size() < 1) {
-				throw new Exception("Caminhos não indicados.");
+			if (paths.size() == 0) {
+				throw new Exception("Nenhum caminho indicado.");
 			}
 			
-			System.out.println("....." + origin + "-" + valuesOfMatrix.size());
-
-			Dijkstra dij = new Dijkstra(valuesOfMatrix.size());
-			
-			System.out.println(origin + ", " + destination);
+			Dijkstra dij = new Dijkstra(cities.size());
 
 			// Adiciona os caminhos no Dijkstra
-			createDijkstraElements(dij);
+			paths.forEach((key, path) -> {
+				try {
+					dij.insertEdge(nodeIndexes.get(path.getOriginCode()), nodeIndexes.get(path.getDestinationCode()), path.getDistance());
+		        } catch(Exception e) {
+		        	throw new RuntimeException(e);
+		        }
+			});
 			
 			//Encontra o menor caminho entre a origem e o destino
 			dij.findSmallestPath(origin, destination);
 
 			// Pega os caminhos percorridos
 			dij.getPathToDestination().forEach((key, edge) -> {
-				System.out.println(edge.getNodeOrigin() + "->" + edge.getNodeDestin() + "=" + edge.getAccumulatedDistance());
+				//System.out.println(cities.get(edge.getNodeOrigin()) + "->" + cities.get(edge.getNodeDestin()) + "=" + edge.getAccumulatedDistance());
 			});
 
-			System.out.println("...." + valuesOfMatrix.get(origin));
-			
-			// Pega o total de distância até o destino
-			System.out.println("Total: " + dij.getDistanceToDestination());
-
-			result = dij.getDistanceToDestination().toString();
-
+			result = "Menor caminho entre " + cities.get(origin) + " e " + cities.get(destination) + " é " + dij.getDistanceToDestination().toString() + " km.";
 		} catch (Exception error) {
 			throw new Exception("Erro ao encontrar menor caminho: " + error.getMessage());
 		}
@@ -93,19 +58,33 @@ public class PathFounder {
 	}
 	
 	public String foundSmallerPath() throws Exception {
+		if (paths.size() == 0) {
+			throw new Exception("Nenhum caminho indicado.");
+		}
 		
-		paths.forEach(path -> System.out.println(path.getCityFinish()));
-		
-		//Pega o Index do começo do primeiro caminho e o final do ultimo caminho
-		return foundSmallerPath(valuesOfMatrix.get(paths.get(0).getStart()), 
-				valuesOfMatrix.get(paths.get(paths.size() - 1).getFinish()));
+		return foundSmallerPath(
+				nodeIndexes.get(paths.get(0).getOriginCode()), 
+				nodeIndexes.get(paths.get(paths.size() - 1).getDestinationCode())
+		);
 	}
-
-	public void createDijkstraElements(Dijkstra dij) throws Exception {
-		for (Path path : paths) {
-			dij.insertEdge(valuesOfMatrix.get(path.getStart()), valuesOfMatrix.get(path.getFinish()),
-					path.getDistance());
+	
+	public TreeMap<String, Integer> getNodeIndexes() {
+		return nodeIndexes;
+	}
+	
+	public TreeMap<Integer, String> getCities() {
+		return cities;
+	}
+	
+	private void extractDataFromPath(Path path) {
+		if (nodeIndexes.get(path.getOriginCode()) == null) {
+			nodeIndexes.put(path.getOriginCode(), nodeIndexes.size());
+			cities.put(cities.size(), path.getOriginName());
+		}
+		
+		if (nodeIndexes.get(path.getDestinationCode()) == null) {
+			nodeIndexes.put(path.getDestinationCode(), nodeIndexes.size());
+			cities.put(cities.size(), path.getDestinationName());
 		}
 	}
-
 }

@@ -1,61 +1,37 @@
 package com.grafos.model;
 
 public class Path {
-	Integer start;
-	String cityStart;
-	Integer finish;
-	String cityFinish;
+	String originCode;
+	String originName;
+	String destinationCode;
+	String destinationName;
 	Integer distance;
 	
-	public Path(Integer start, String cityStart, Integer finish, String cityFinish, Integer distance) {
-		super();
-		this.start = start;
-		this.cityStart = cityStart;
-		this.finish = finish;
-		this.cityFinish = cityFinish;
+	public Path(String originCode, String originName, String destinationCode, String destinationName, Integer distance) {
+		this.originCode = originCode;
+		this.originName = originName;
+		this.destinationCode = destinationCode;
+		this.destinationName = destinationName;
 		this.distance = distance;
 	}
 
-	public Integer getStart() {
-		return start;
+	public String getOriginCode() {
+		return originCode;
 	}
 
-	public void setStart(Integer start) {
-		this.start = start;
+	public String getOriginName() {
+		return originName;
 	}
 
-	public String getCityStart() {
-		return cityStart;
+	public String getDestinationCode() {
+		return destinationCode;
 	}
 
-	public void setCityStart(String cityStart) {
-		this.cityStart = cityStart;
-	}
-
-	public Integer getFinish() {
-		return finish;
-	}
-
-	public void setFinish(Integer finish) {
-		this.finish = finish;
-	}
-
-	public String getCityFinish() {
-		return cityFinish;
-	}
-
-	public void setCityFinish(String cityFinish) {
-		this.cityFinish = cityFinish;
+	public String getDestinationName() {
+		return destinationName;
 	}
 
 	public Integer getDistance() {
 		return distance;
 	}
-
-	public void setDistance(Integer distance) {
-		this.distance = distance;
-	}
-	
-	
-	
 }
