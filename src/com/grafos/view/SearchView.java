@@ -3,6 +3,9 @@ package com.grafos.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -185,9 +188,11 @@ public class SearchView extends JFrame {
 
 		buttonSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: REFATORAR ESSE CODIGO LIXO QUE O ROGER FEZ
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+				String fileName = dateFormat.format(new Date()) + "_importado.txt";
 				
 				PathFounder founder = new PathFounder();
+				
 				for (Integer i = 0; i < distancesGridTable.getRowCount(); i++) {
 					String[] path = new String[5];
 
@@ -197,22 +202,20 @@ public class SearchView extends JFrame {
 					
 					try {
 						founder.add(path);
-					} catch(Exception ex) {
-						System.out.println(ex.getMessage());
+					} catch(Exception error) {
+						JOptionPane.showMessageDialog(null, "Erro ao salvar dados: " + error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 					}
-					
 				}
 				
 				try {
 					String result = founder.foundSmallerPath();
 					
-					FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() + "\\" + config.getSuccessFolder(), result);
-
+					FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() + "\\" + config.getSuccessFolder(), fileName, result);
 				} catch (Exception error) {
 					try {
-						FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() +  "\\" + config.getErrorFolder(), error.getMessage());
-					} catch (Exception ex) {
-						System.out.println(ex.getMessage());
+						FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() +  "\\" + config.getErrorFolder(), fileName, error.getMessage());
+					} catch (Exception innerError) {
+						System.out.println(innerError.getMessage());
 					}
 				}
 				
@@ -277,6 +280,8 @@ public class SearchView extends JFrame {
 				String selectedFile = fileChooser();
 				if (selectedFile != null) {
 					txfSearch.setText(selectedFile);
+					
+					resetDistanceGrid();
 
 					try {
 						FileDataManager.extractFileData(selectedFile)

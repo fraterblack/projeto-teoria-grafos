@@ -37,11 +37,10 @@ public class FileDataManager {
 	}
 	
 	// TODO CHANGE paths to STRING[][]
-	public static void exportFileDate(Path[] paths, String filePath, String result) throws Exception  {
+	public static void exportFileDate(Path[] paths, String filePath, String fileName, String resultMessage) throws Exception  {
 		
 		try {
-			//TODO PEGAR NOME DO ARQUIVO DO USUARIO OU USAR HASH
-			BufferedWriter bufferArquivo = new BufferedWriter(new FileWriter(filePath + "\\roger.txt"));
+			BufferedWriter bufferArquivo = new BufferedWriter(new FileWriter(filePath + "\\" + fileName));
 
 			for(Path path : paths) {
 				bufferArquivo.append(path.getOriginCode() 
@@ -52,8 +51,9 @@ public class FileDataManager {
 									+ DATA_SEPARATOR 
 									+ path.getDestinationName()
 									+ DATA_SEPARATOR 
-									+ path.getDistance()
-									+ "\n");
+									+ path.getDistance());
+				bufferArquivo.append(System.getProperty("line.separator"));
+				
 				System.out.println(path.getOriginCode() 
 									+ DATA_SEPARATOR 
 									+ path.getOriginName()
@@ -66,7 +66,7 @@ public class FileDataManager {
 									+ "\n");
 			}
 			
-			bufferArquivo.append(result);
+			bufferArquivo.append(resultMessage);
 			
 			bufferArquivo.close();
 		} catch(Exception error) {

@@ -10,13 +10,13 @@ public class PathFounder {
 	private TreeMap<String, Integer> nodeIndexes = new TreeMap<String, Integer>();
 	
 	public Path[] getPaths() {
-		Path[] the_paths = new Path[paths.size()];
+		Path[] pathsToReturn = new Path[paths.size()];
 		
-		for(Integer i=0;i<paths.size();i++) {
-			the_paths[i] = paths.get(i);
+		for (Integer i = 0; i < paths.size(); i++) {
+			pathsToReturn[i] = paths.get(i);
 		}
-		
-		return the_paths;
+
+		return pathsToReturn;
 	}
 	
 	public void add(String[] data) throws Exception {
