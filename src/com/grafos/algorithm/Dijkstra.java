@@ -75,7 +75,7 @@ public class Dijkstra extends Graph {
 	 * 
 	 * @return TreeMap<Integer, Path>
 	 */
-	private TreeMap<Integer, Edge> extractSmallestPathTo(int origin, int destin) {
+	private TreeMap<Integer, Edge> extractSmallestPathTo(int origin, int destin) throws Exception {
 		TreeMap<Integer, Edge> paths = new TreeMap<Integer, Edge>();
 
 		boolean smallestPathFound = false;
@@ -83,7 +83,7 @@ public class Dijkstra extends Graph {
 
 		// Percorre a lista de prioridade.
 		while (!edgesRemaining.isEmpty()) {
-
+			boolean change = false;
 			int smallValue = Integer.MAX_VALUE;
 			int nodeWithSmallestWeight = 0;
 
@@ -94,6 +94,7 @@ public class Dijkstra extends Graph {
 				if (distances[currentVertex] < smallValue) {
 					smallValue = distances[currentVertex];
 					nodeWithSmallestWeight = currentVertex;
+					change = true;
 				}
 			}
 
@@ -110,7 +111,7 @@ public class Dijkstra extends Graph {
 			if (destin == nodeWithSmallestWeight) {
 				smallestPathFound = true;
 			}
-
+			System.out.println(nodeWithSmallestWeight);
 			edgesRemaining.remove(new Integer(nodeWithSmallestWeight));
 
 			// Percorre todos os itens restantes para relaxar os itens
@@ -118,6 +119,10 @@ public class Dijkstra extends Graph {
 				if (getMatrix()[nodeWithSmallestWeight][i] > 0) {
 					calculateDistances(nodeWithSmallestWeight, i);
 				}
+			}
+			
+			if(!change) {
+				throw new Exception("Caminho impossivel.");
 			}
 		}
 
