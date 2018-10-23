@@ -27,7 +27,7 @@ public class PathFounder {
 				Integer.parseInt(data[4]));
 
 		paths.add(path);
-		/* REFATORADO
+		// REFATORADO
 		// verify if already exist the key
 		if (!valuesOfMatrix.containsKey(Integer.parseInt(data[0]))) {
 			valuesOfMatrix.put(Integer.parseInt(data[0]), index);
@@ -38,10 +38,10 @@ public class PathFounder {
 		if (!valuesOfMatrix.containsKey(Integer.parseInt(data[2]))) {
 			valuesOfMatrix.put(Integer.parseInt(data[2]), index);
 			index++;
-		}*/
+		}
 		
-		addNewCityCodeInTheHashMap(Integer.parseInt(data[2]));
-		addNewCityCodeInTheHashMap(Integer.parseInt(data[2]));
+		//addNewCityCodeInTheHashMap(Integer.parseInt(data[0]));
+		//addNewCityCodeInTheHashMap(Integer.parseInt(data[2]));
 		
 	}
 	
@@ -52,7 +52,7 @@ public class PathFounder {
 		}
 	}
 
-	public String foundSmallerPath() throws Exception {
+	public String foundSmallerPath(Integer origin, Integer destination) throws Exception {
 		String result = "";
 
 		try {
@@ -60,23 +60,28 @@ public class PathFounder {
 			if (paths.size() < 1) {
 				throw new Exception("Caminhos não indicados.");
 			}
+			
+			System.out.println("....." + origin + "-" + valuesOfMatrix.size());
 
 			Dijkstra dij = new Dijkstra(valuesOfMatrix.size());
+			
+			System.out.println(origin + ", " + destination);
 
 			// Adiciona os caminhos no Dijkstra
 			createDijkstraElements(dij);
 			
-			//Pega o Index do começo do primeiro caminho e o final do ultimo caminho
-			dij.findSmallestPath(valuesOfMatrix.get(paths.get(0).getStart()), 
-									valuesOfMatrix.get(paths.get(paths.size() - 1).getFinish()));
+			//Encontra o menor caminho entre a origem e o destino
+			dij.findSmallestPath(origin, destination);
 
 			// Pega os caminhos percorridos
 			dij.getPathToDestination().forEach((key, edge) -> {
 				System.out.println(edge.getNodeOrigin() + "->" + edge.getNodeDestin() + "=" + edge.getAccumulatedDistance());
 			});
 
+			System.out.println("...." + valuesOfMatrix.get(origin));
+			
 			// Pega o total de distância até o destino
-			System.out.println(dij.getDistanceToDestination());
+			System.out.println("Total: " + dij.getDistanceToDestination());
 
 			result = dij.getDistanceToDestination().toString();
 
@@ -85,6 +90,15 @@ public class PathFounder {
 		}
 
 		return result;
+	}
+	
+	public String foundSmallerPath() throws Exception {
+		
+		paths.forEach(path -> System.out.println(path.getCityFinish()));
+		
+		//Pega o Index do começo do primeiro caminho e o final do ultimo caminho
+		return foundSmallerPath(valuesOfMatrix.get(paths.get(0).getStart()), 
+				valuesOfMatrix.get(paths.get(paths.size() - 1).getFinish()));
 	}
 
 	public void createDijkstraElements(Dijkstra dij) throws Exception {

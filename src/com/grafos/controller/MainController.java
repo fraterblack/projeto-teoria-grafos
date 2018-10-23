@@ -97,7 +97,7 @@ public class MainController implements ObserverTrayIconInterface {
 						File folder = new File(configuration.getRootFolder());
 						for (String fileName : folder.list()) {
 							if (fileName.endsWith(".txt")) {
-								DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd_hh-mm-ss");
+								DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
 								
 								String filePath = folder.getPath() + "\\" + fileName;
 								java.nio.file.Path source = Paths.get(filePath);
@@ -127,17 +127,17 @@ public class MainController implements ObserverTrayIconInterface {
 									
 									//SUCESSO
 									//Guarda o resultado no final do arquivo
-									writeMessageInFile(filePath, result);
+									//writeMessageInFile(filePath, result);
 									
 									//Move arquivo
-									Files.move(source, successPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
+									//Files.move(source, successPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
 								} catch (Exception error) {
 									//EM CASO DE ERRO
 									//Adiciona a mensagem de erro no final do arquivo
-									writeMessageInFile(filePath, error.getMessage());
+									//writeMessageInFile(filePath, error.getMessage());
 									
 									//Move arquivo
-									Files.move(source, errorPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
+									//Files.move(source, errorPath.resolve(dateFormat.format(new Date()) + "_" + fileName));
 								}
 								
 								//Interrompe o laco, pois a aplicação processa um arquivo por vez
