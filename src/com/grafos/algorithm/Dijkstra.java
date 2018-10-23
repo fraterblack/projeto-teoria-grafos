@@ -80,26 +80,26 @@ public class Dijkstra extends Graph {
 
 		boolean smallestPathFound = false;
 		int nodeOrigin = origin;
-
+		int lastValue = 0;
 		// Percorre a lista de prioridade.
 		while (!edgesRemaining.isEmpty()) {
 			boolean change = false;
 			int smallValue = Integer.MAX_VALUE;
 			int nodeWithSmallestWeight = 0;
-
+			
 			Iterator<Integer> it = edgesRemaining.iterator();
 			while (it.hasNext()) {
 				int currentVertex = it.next();
-
+				
 				if (distances[currentVertex] < smallValue) {
 					smallValue = distances[currentVertex];
 					nodeWithSmallestWeight = currentVertex;
 					change = true;
 				}
 			}
-
+			
 			// Se o menor caminho ainda não foi encontrado
-			if (!smallestPathFound && smallValue > 0) {
+			if (!smallestPathFound && smallValue > lastValue) {
 				paths.put(paths.size(), new Edge(nodeOrigin, nodeWithSmallestWeight, smallValue));
 
 				// variável de controler para saber o último vértice na próxima iteração
@@ -111,7 +111,7 @@ public class Dijkstra extends Graph {
 			if (destin == nodeWithSmallestWeight) {
 				smallestPathFound = true;
 			}
-			System.out.println(nodeWithSmallestWeight);
+			
 			edgesRemaining.remove(new Integer(nodeWithSmallestWeight));
 
 			// Percorre todos os itens restantes para relaxar os itens
@@ -124,6 +124,7 @@ public class Dijkstra extends Graph {
 			if(!change) {
 				throw new Exception("Caminho impossivel.");
 			}
+			lastValue = smallValue;
 		}
 
 		return paths;
@@ -143,77 +144,39 @@ public class Dijkstra extends Graph {
 		try {
 			Dijkstra dij = new Dijkstra(8);
 
-			dij.insertEdge(0, 0, 0);
 			dij.insertEdge(0, 1, 4);
 			dij.insertEdge(0, 2, 4);
-			dij.insertEdge(0, 3, 0);
 			dij.insertEdge(0, 4, 2);
-			dij.insertEdge(0, 5, 0);
 			dij.insertEdge(0, 6, 6);
-			dij.insertEdge(0, 7, 0);
 
 			dij.insertEdge(1, 0, 4);
-			dij.insertEdge(1, 1, 0);
 			dij.insertEdge(1, 2, 2);
 			dij.insertEdge(1, 3, 7);
-			dij.insertEdge(1, 4, 0);
-			dij.insertEdge(1, 5, 0);
 			dij.insertEdge(1, 6, 3);
-			dij.insertEdge(1, 7, 0);
 
 			dij.insertEdge(2, 0, 4);
 			dij.insertEdge(2, 1, 2);
-			dij.insertEdge(2, 2, 0);
 			dij.insertEdge(2, 3, 3);
 			dij.insertEdge(2, 4, 2);
-			dij.insertEdge(2, 5, 0);
-			dij.insertEdge(2, 6, 0);
-			dij.insertEdge(2, 7, 0);
 
-			dij.insertEdge(3, 0, 0);
 			dij.insertEdge(3, 1, 7);
 			dij.insertEdge(3, 2, 3);
-			dij.insertEdge(3, 3, 0);
-			dij.insertEdge(3, 4, 0);
-			dij.insertEdge(3, 5, 0);
-			dij.insertEdge(3, 6, 0);
 			dij.insertEdge(3, 7, 2);
 
 			dij.insertEdge(4, 0, 2);
-			dij.insertEdge(4, 1, 0);
 			dij.insertEdge(4, 2, 2);
-			dij.insertEdge(4, 3, 0);
-			dij.insertEdge(4, 4, 0);
 			dij.insertEdge(4, 5, 7);
-			dij.insertEdge(4, 6, 0);
 			dij.insertEdge(4, 7, 4);
 
-			dij.insertEdge(5, 0, 0);
-			dij.insertEdge(5, 1, 0);
-			dij.insertEdge(5, 2, 0);
-			dij.insertEdge(5, 3, 0);
 			dij.insertEdge(5, 4, 7);
-			dij.insertEdge(5, 5, 0);
-			dij.insertEdge(5, 6, 0);
 			dij.insertEdge(5, 7, 3);
 
 			dij.insertEdge(6, 0, 6);
 			dij.insertEdge(6, 1, 3);
-			dij.insertEdge(6, 2, 0);
-			dij.insertEdge(6, 3, 0);
-			dij.insertEdge(6, 4, 0);
-			dij.insertEdge(6, 5, 0);
-			dij.insertEdge(6, 6, 0);
-			dij.insertEdge(6, 7, 0);
 
-			dij.insertEdge(7, 0, 0);
-			dij.insertEdge(7, 1, 0);
-			dij.insertEdge(7, 2, 0);
 			dij.insertEdge(7, 3, 2);
 			dij.insertEdge(7, 4, 4);
 			dij.insertEdge(7, 5, 3);
-			dij.insertEdge(7, 6, 0);
-			dij.insertEdge(7, 7, 0);
 			
 			System.out.println("########### Test Case ##########");
 			
@@ -225,6 +188,7 @@ public class Dijkstra extends Graph {
 			});
 
 			System.out.println(dij.getDistanceToDestination()); //Esperado: Total 10
+			System.out.println("test");
 			///////
 			
 			//Case 2
