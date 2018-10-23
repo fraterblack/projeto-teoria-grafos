@@ -185,31 +185,35 @@ public class SearchView extends JFrame {
 
 		buttonSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: GERA O ARQUIVO APARTIR DOS DADOS DA GRID
+				//TODO: REFATORAR ESSE CODIGO LIXO QUE O ROGER FEZ
 				
-				
+				PathFounder founder = new PathFounder();
+				for (Integer i = 0; i < distancesGridTable.getRowCount(); i++) {
+					String[] path = new String[5];
+
+					for (Integer j = 0; j < 5; j++) {
+						path[j] = (String) distancesGridTable.getValueAt(i, j);
+					}
+					
+					try {
+						founder.add(path);
+					} catch(Exception ex) {
+						System.out.println(ex.getMessage());
+					}
+					
+				}
 				
 				try {
-					PathFounder founder = new PathFounder();
-
-					for (Integer i = 0; i < distancesGridTable.getRowCount(); i++) {
-						String[] path = new String[5];
-
-						for (Integer j = 0; j < 5; j++) {
-							path[j] = (String) distancesGridTable.getValueAt(i, j);
-						}
-
-						founder.add(path);
-					}
-
 					String result = founder.foundSmallerPath();
 					
 					FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() + "\\" + config.getSuccessFolder(), result);
 
-					
 				} catch (Exception error) {
-					//TODO ARRUAMR ERRO
-					//FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() + config.getErrorFolder(), error.getMessage());
+					try {
+						FileDataManager.exportFileDate(founder.getPaths(), config.getRootFolder() +  "\\" + config.getErrorFolder(), error.getMessage());
+					} catch (Exception ex) {
+						System.out.println(ex.getMessage());
+					}
 				}
 				
 				txfSearch.setText("");
