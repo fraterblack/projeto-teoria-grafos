@@ -1,5 +1,8 @@
 package com.grafos.algorithm;
 
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
 public class Graph {
 	private final int NODES_QUANTITY;
 	private Integer[][] matrix;
@@ -65,5 +68,13 @@ public class Graph {
 				matrix[i][j] = 0;
 			}
 		}
+	}
+
+	protected Integer sumDistanceOfPaths(TreeMap<Integer, Edge> mapOfPaths) {
+		Integer sumOfDistance = 0;
+		for (Entry<Integer, Edge> entry : mapOfPaths.entrySet()) {
+			sumOfDistance += entry.getValue().getAccumulatedDistance();
+		}
+		return sumOfDistance;
 	}
 }
