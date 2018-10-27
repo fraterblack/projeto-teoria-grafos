@@ -1,13 +1,12 @@
 package com.grafos.algorithm;
 
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
+
 
 public class Vieira extends Graph {
 	Integer[][] matrixAuxiliar;
-	Map<Integer, TreeMap<Integer, Edge>> memory;
-	
+	TreeMap<Integer, TreeMap<Integer, Edge>> memory;
+
 	// Results
 	private int distanceToDestination = 0;
 	private TreeMap<Integer, Edge> pathToDestination;
@@ -20,17 +19,30 @@ public class Vieira extends Graph {
 	public void findSmallestPath(int origin, int destin) throws Exception {
 		matrixAuxiliar = getMatrix();
 		
-		/////NEW Map<Integer, TreeMap<Integer, Edge>> PRECISA?
+		for(int i =0;i<matrixAuxiliar.length;i++) {
+			for(int j=0;j<matrixAuxiliar.length;j++) {
+				System.out.print(matrixAuxiliar[i][j] + " ");
+			}
+			System.out.println("");
+		}
 		
-		TreeMap<Integer, Edge> pathToDestination = 
+		/////NEW Map<Integer, TreeMap<Integer, Edge>> PRECISA?
+		memory = new TreeMap<Integer, TreeMap<Integer, Edge>>();
+		
+		this.pathToDestination = 
 				recursiveSmallestPath(origin,destin,new TreeMap<Integer, Edge>());
 		
-		distanceToDestination = sumDistanceOfPaths(pathToDestination);
-		
+
+		if(pathToDestination == null) {
+			throw new Exception("Não encontradaso.");
+		}
+
+		this.distanceToDestination = sumDistanceOfPaths(pathToDestination);
 	}
-	
+
+	private Integer helper = 1000; //GAMBIARRA ROGER
 	private TreeMap<Integer, Edge> recursiveSmallestPath(Integer origin, int destin, TreeMap<Integer, Edge> paths) {
-		
+
 		//Caso chegou ao destino
 		if(origin == destin) {
 			return paths;
@@ -38,46 +50,65 @@ public class Vieira extends Graph {
 		
 		//Caso já tenha cido passado por esse nó
 		if(memory.containsKey(origin)) {
-			
-			for (Entry<Integer, Edge> entry : memory.get(origin).entrySet()) {
-				paths.put(entry.getKey(),entry.getValue());
-			}
-			
-			return paths;
+			return memory.get(origin);
 		}
 		
 		Integer smallestValue = Integer.MAX_VALUE; //Seta para o maior inteiro possivel
 		Integer smallestValueIndex = -1;
-		
+		Integer the_rect = -1;
 		for(int i=0;i<matrixAuxiliar.length;i++) {
+			
 			if(matrixAuxiliar[origin][i] > 0) {
 				
+				//Cria o caminho
+				Edge edge = new Edge(origin, i, matrixAuxiliar[origin][i]);
+				
 				//Destroi os caminhos de ida e volta da matrix auxiliar
+				Integer rect = matrixAuxiliar[origin][i];
 				matrixAuxiliar[origin][i] = 0;
 				matrixAuxiliar[i][origin] = 0; 
 				
+				TreeMap<Integer, Edge> local = new TreeMap<Integer, Edge>();
+				paths.put(helper, edge);
 				//Começa a recursividade do proximo no e salva na memoria
-				memory.put(i, recursiveSmallestPath(i, destin, paths));
-				
-				//Pega a distancia
-				Integer distance = sumDistanceOfPaths(memory.get(i));
-				
-				//Verifica se é a menor distancia
-				if(smallestValue > distance) {
-					smallestValue = distance;
-					smallestValueIndex = i;
-				}
+				TreeMap<Integer, Edge> auxiliar = recursiveSmallestPath(i, destin, local);
 
+
+				if(auxiliar != null) {
+					memory.put(i, auxiliar);
+					
+					//Pega a distancia
+					Integer distance = sumDistanceOfPaths(auxiliar);
+					if(origin == 6) {
+						System.out.println("Distancae " + distance);
+					}
+					//Verifica se é a menor distancia
+					if(smallestValue > distance && distance > 0) {
+						smallestValue = distance;
+						smallestValueIndex = i;
+						the_rect = rect;
+					}
+					
+				}
+				paths.remove(helper);
+				helper++;
+				
 			}
+			
 		}
 		
 		//Caso não possua nenhum nó ligado a este  e tambem não encontrou o caminho
 		if(smallestValueIndex == -1) {
+			System.out.println(origin + " rigin");
 			return null;
 		}
 		else {
-			paths.put(origin, new Edge(origin,smallestValueIndex,smallestValue));
-			return recursiveSmallestPath(smallestValueIndex,destin,paths); //Prosegue a recursividade
+			paths.put(origin, new Edge(origin,smallestValueIndex,the_rect));
+			System.out.println("ADD PATH");
+			System.out.println(origin);
+			System.out.println(smallestValueIndex);
+			System.out.println(the_rect);
+			return recursiveSmallestPath(smallestValueIndex, destin, paths);
 		}
 		
 	}
@@ -96,7 +127,7 @@ public class Vieira extends Graph {
 	public static void main(String[] args) {
 
 		try {
-			Dijkstra dij = new Dijkstra(8);
+			Vieira dij = new Vieira(8);
 
 			dij.insertEdge(0, 1, 4);
 			dij.insertEdge(0, 2, 4);
@@ -115,11 +146,15 @@ public class Vieira extends Graph {
 
 			dij.insertEdge(3, 1, 7);
 			dij.insertEdge(3, 2, 3);
-
+			dij.insertEdge(3, 7, 2);
 
 			dij.insertEdge(4, 0, 2);
 			dij.insertEdge(4, 2, 2);
 			dij.insertEdge(4, 5, 7);
+			dij.insertEdge(4, 7, 4);
+
+			dij.insertEdge(5, 4, 7);
+			dij.insertEdge(5, 7, 3);
 
 			dij.insertEdge(6, 0, 6);
 			dij.insertEdge(6, 1, 3);
@@ -140,7 +175,7 @@ public class Vieira extends Graph {
 			System.out.println(dij.getDistanceToDestination()); //Esperado: Total 10
 			System.out.println("test");
 			///////
-			
+			/*
 			//Case 2
 			dij.findSmallestPath(3, 5);
 			
@@ -148,7 +183,7 @@ public class Vieira extends Graph {
 				System.out.println(edge.getNodeOrigin() + "->" + edge.getNodeDestin() + "=" + edge.getAccumulatedDistance());
 			});
 
-			System.out.println(dij.getDistanceToDestination()); //Esperado: Total 5
+			System.out.println(dij.getDistanceToDestination()); //Esperado: Total 5*/
 			///////
 		} catch (Exception ex) {
 			if (ex.getMessage() == null)
