@@ -1,6 +1,5 @@
 package com.grafos.algorithm;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
@@ -47,15 +46,23 @@ public class Vieira extends Graph {
 			return paths;
 		}
 		
-		Integer smallestValue = Integer.MAX_VALUE;
+		Integer smallestValue = Integer.MAX_VALUE; //Seta para o maior inteiro possivel
 		Integer smallestValueIndex = -1;
 		
 		for(int i=0;i<matrixAuxiliar.length;i++) {
 			if(matrixAuxiliar[origin][i] > 0) {
 				
+				//Destroi os caminhos de ida e volta da matrix auxiliar
+				matrixAuxiliar[origin][i] = 0;
+				matrixAuxiliar[i][origin] = 0; 
+				
+				//Começa a recursividade do proximo no e salva na memoria
 				memory.put(i, recursiveSmallestPath(i, destin, paths));
 				
+				//Pega a distancia
 				Integer distance = sumDistanceOfPaths(memory.get(i));
+				
+				//Verifica se é a menor distancia
 				if(smallestValue > distance) {
 					smallestValue = distance;
 					smallestValueIndex = i;
@@ -64,20 +71,16 @@ public class Vieira extends Graph {
 			}
 		}
 		
-		//Não achou
+		//Caso não possua nenhum nó ligado a este  e tambem não encontrou o caminho
 		if(smallestValueIndex == -1) {
-			 
+			return null;
 		}
 		else {
 			paths.put(origin, new Edge(origin,smallestValueIndex,smallestValue));
-			return recursiveSmallestPath(smallestValueIndex,destin,paths);
+			return recursiveSmallestPath(smallestValueIndex,destin,paths); //Prosegue a recursividade
 		}
 		
-		
-		
-		return null;
 	}
-	
 	
 	public Integer getDistanceToDestination() {
 		return distanceToDestination;
