@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 
 
 public class Vieira extends Graph {
-	
-	
 
 	// Results
 	private Integer distanceToDestination;
@@ -15,7 +13,7 @@ public class Vieira extends Graph {
 	
 	//Auxiliar
 	Integer[][] matrixAuxiliar;
-	
+	private Integer index = 1;
 	
 	public Vieira(int vertexQuantity) throws Exception {
 		super(vertexQuantity);
@@ -29,14 +27,12 @@ public class Vieira extends Graph {
 		recursivePathFounder(origin,destin,new TreeMap<Integer, Edge>(), 0);
 		
 		if(!founded) {
-			throw new Exception("Não encontradaso.");
+			throw new Exception("Não encontrado.");
 		}
 		
 
 	}
 
-	private Integer index = 100;
-	
 	public void recursivePathFounder(Integer origin, Integer destin, TreeMap<Integer, Edge> paths, Integer sum) {
 		
 		if(origin == destin) {
@@ -72,37 +68,42 @@ public class Vieira extends Graph {
 			//System.out.println("=============");
 			return;
 		}
-
+		
+		
 		Integer[] values = new Integer[matrixAuxiliar.length];
 		for(Integer i=0;i<matrixAuxiliar.length;i++) {
+			
+			//Salva os valores em um vetor local
 			values[i] = matrixAuxiliar[origin][i];
+			
+			//apaga os caminhos de inda e vinda para impedir voltar para este nó
+			//teoricamente voltar para o nó so perde tempo e aumenta a distancia
 			matrixAuxiliar[origin][i] = 0;
 			matrixAuxiliar[i][origin] = 0;
 			
 		}
 		
 		for(Integer i=0;i<matrixAuxiliar.length;i++) {
+			
 			//existe caminho
 			if(values[i] > 0) {
-				Edge edge = new Edge(origin,i,values[i]);
-
 				
-				paths.put(index, edge);
+				Edge edge = new Edge(origin,i,values[i]);
+				
+				paths.put(index, edge); //adiciona para o loop local
 				index++;
 				
+				//chama a recursividade para cada nó
 				recursivePathFounder(i,destin,paths,sum + edge.getAccumulatedDistance());
 				
-				paths.remove(index - 1);
+				paths.remove(index - 1); //remove para continuar o loop
 				
 			}
 			
 		}
 		
-		
 		return;
 	}
-	
-	
 
 	public Integer getDistanceToDestination() {
 		return distanceToDestination;
@@ -115,30 +116,15 @@ public class Vieira extends Graph {
 	public static void main(String[] args) {
 
 		try {
-			Vieira dij = new Vieira(6);
-			/*
-			5 7
-			0 1 4
-			0 2 8
-			1 3 5
-			1 2 2
-			2 3 5
-			2 4 9
-			3 4 4
-			*/
+			Vieira dij = new Vieira(4);
+
 			dij.insertEdge(0, 1, 4);
 			dij.insertEdge(0, 2, 8);
 			dij.insertEdge(1, 3, 5);
-			dij.insertEdge(1, 2, 2);
-			dij.insertEdge(2, 3, 5);
-			dij.insertEdge(2, 4, 9);
-			dij.insertEdge(3, 4, 4);
+			dij.insertEdge(2, 3, 2);
 
-			
-			
-			
 			//Case 1
-			dij.findSmallestPath(0, 4);
+			dij.findSmallestPath(0,3);
 			System.out.println("########### Test Case ##########");
 			
 			dij.getPathToDestination().forEach((key, edge) -> {
