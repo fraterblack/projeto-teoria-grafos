@@ -72,6 +72,9 @@ public class Graph {
 
 	protected Integer sumDistanceOfPaths(TreeMap<Integer, Edge> mapOfPaths) {
 		Integer sumOfDistance = 0;
+		if(mapOfPaths == null) {
+			return -1;
+		}
 		for (Entry<Integer, Edge> entry : mapOfPaths.entrySet()) {
 			sumOfDistance += entry.getValue().getAccumulatedDistance();
 		}
