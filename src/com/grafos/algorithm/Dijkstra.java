@@ -33,9 +33,6 @@ public class Dijkstra extends Graph {
 			TreeMap<Integer, Integer> solvedNodes = new TreeMap<Integer, Integer>();
 			TreeMap<Integer, Edge> processedPaths = new TreeMap<Integer, Edge>();
 			
-			//Cria uma cópia da matriz, uma vez que a mesma será manipulada
-			Integer[][] matrix = getMatrix();
-			
 			for (int i = 0; i < getNodesQuantity(); i++) {
 				//Cria o vetor de nós restantes
 				unsolvedNodes.put(unsolvedNodes.size(), new Integer(i));
@@ -63,9 +60,9 @@ public class Dijkstra extends Graph {
 					for (int i = 0; i < getNodesQuantity(); i++) {
 						//Só considera nós com valor maior que zero e que não seja adjascente a uma nó já resolvido
 						//E nós que ainda não tenham sido resolvidos
-						if (matrix[currentNode][i] > 0 && solvedNodes.get(i) == null) {
+						if (getMatrix()[currentNode][i] > 0 && solvedNodes.get(i) == null) {
 							//Soma do peso do nó adjascente ao valor acumulado do nó resolvido
-							int adjacentDistance = matrix[currentNode][i] + acummulatedDistance;
+							int adjacentDistance = getMatrix()[currentNode][i] + acummulatedDistance;
 							
 							//Logging
 							String logMessage = "  Nó adjascente [" + i + "] - Distância: " + adjacentDistance + "(" + acummulatedDistance + ")";
@@ -205,7 +202,7 @@ public class Dijkstra extends Graph {
 			System.out.println("########### Test Case ##########");
 			
 			//Case 1
-			dij.findSmallestPath(2, 5);
+			dij.findSmallestPath(5, 2);
 			
 			System.out.println("Rota:");
 			dij.getPathToDestination().forEach((key, edge) -> {
