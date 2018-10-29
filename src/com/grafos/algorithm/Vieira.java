@@ -20,6 +20,8 @@ public class Vieira extends Graph {
 
 	public void findSmallestPath(int origin, int destin) throws Exception {
 		int len = getNodesQuantity();
+		
+		//cria matrix auxiliar
 		matrixAuxiliar = new Integer[len][len];
 		for(int l=0;l<len;l++) {
 			for(int k=0;k<len;k++) {
@@ -27,11 +29,14 @@ public class Vieira extends Graph {
 			}
 		}
 		
+		//seta distatncia final no maximo
 		distanceToDestination = Integer.MAX_VALUE;
 
 		recursivePathFounder(origin, destin, new TreeMap<Integer, Edge>(), 0,true);
 
 		if (!founded) {
+			pathToDestination = null;
+			distanceToDestination = -1;
 			throw new Exception("NÃ£o encontrado.");
 		}
 	}
@@ -44,28 +49,25 @@ public class Vieira extends Graph {
 			return;
 		}
 		
+		// Achou um caminho menor
 		if (origin == destin) {
 			founded = true;
+
+			this.distanceToDestination = sum;
+
+			pathToDestination = new TreeMap<Integer, Edge>();
 			
-			//Verifica se a distancia encontrada é menor que a final
-			if (sum < this.distanceToDestination) {
+			//nutri o caminhos final
+			Integer localIndex = 0;
+			for (Entry<Integer, Edge> entry : paths.entrySet()) {
 
-				this.distanceToDestination = sum;
-
-				pathToDestination = new TreeMap<Integer, Edge>();
-				
-				//nutri o caminhos final
-				Integer localIndex = 0;
-				for (Entry<Integer, Edge> entry : paths.entrySet()) {
-
-					pathToDestination.put(localIndex, entry.getValue());
-					localIndex++;
-				}
-
+				pathToDestination.put(localIndex, entry.getValue());
+				localIndex++;
 			}
 
 			return;
 		}
+		
 		//Vetor com os valores de distancia
 		Integer[] values = new Integer[matrixAuxiliar.length];
 		
