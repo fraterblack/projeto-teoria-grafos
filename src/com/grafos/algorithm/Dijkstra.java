@@ -109,6 +109,7 @@ public class Dijkstra extends Graph {
 				}
 			}
 			
+			//Gera o caminho até o destino apartir dos caminhos processados no cálculo
 			generatePathToDestination(processedPaths);
 		} catch (Exception error) {
 			if (error.getMessage().equals("-1")) {
@@ -204,7 +205,7 @@ public class Dijkstra extends Graph {
 			System.out.println("########### Test Case ##########");
 			
 			//Case 1
-			dij.findSmallestPath(0, 7);
+			dij.findSmallestPath(2, 5);
 			
 			System.out.println("Rota:");
 			dij.getPathToDestination().forEach((key, edge) -> {
@@ -214,8 +215,8 @@ public class Dijkstra extends Graph {
 			System.out.println("Menor distância:");
 			System.out.println(dij.getDistanceToDestination());
 			
-			System.out.println("Log:");
-			dij.printLog();
+			/*System.out.println("Log:");
+			dij.printLog();*/
 			
 			System.out.println("#");
 			System.out.println("########### Test Case 2 ##########");
@@ -232,8 +233,8 @@ public class Dijkstra extends Graph {
 			System.out.println("Menor distância:");
 			System.out.println(dij.getDistanceToDestination());
 			
-			System.out.println("Log:");
-			dij.printLog();
+			/*System.out.println("Log:");
+			dij.printLog();*/
 			///////
 		} catch (Exception ex) {
 			if (ex.getMessage() == null)
