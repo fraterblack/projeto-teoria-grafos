@@ -18,7 +18,6 @@ public class Vieira extends Graph {
 		super(vertexQuantity);
 	}
 
-	// The start of the class
 	public void findSmallestPath(int origin, int destin) throws Exception {
 		int len = getNodesQuantity();
 		matrixAuxiliar = new Integer[len][len];
@@ -33,30 +32,29 @@ public class Vieira extends Graph {
 		recursivePathFounder(origin, destin, new TreeMap<Integer, Edge>(), 0,true);
 
 		if (!founded) {
-			throw new Exception("Não encontrado.");
+			throw new Exception("NÃ£o encontrado.");
 		}
 	}
 
 	public void recursivePathFounder(Integer origin, Integer destin, TreeMap<Integer, Edge> paths, Integer sum,boolean first) {
-
+		
+		//Caso a soma ate aqui ja seja maior que a salva
+		//(Diminui o tempo de execucao)
+		if(sum > getDistanceToDestination()) {
+			return;
+		}
+		
 		if (origin == destin) {
 			founded = true;
-
-			System.out.println("Chegou");
-			 
-			 paths.forEach((key, edge) -> { System.out.println(edge.getNodeOrigin() + "->"
-			 + edge.getNodeDestin() + "=" + edge.getAccumulatedDistance()); });
-			 
-
+			
+			//Verifica se a distancia encontrada é menor que a final
 			if (sum < this.distanceToDestination) {
 
-				/*
-				 * tava passando memoria por isso tava bugando this.pathToDestination = paths;
-				 */
 				this.distanceToDestination = sum;
 
 				pathToDestination = new TreeMap<Integer, Edge>();
-
+				
+				//nutri o caminhos final
 				Integer localIndex = 0;
 				for (Entry<Integer, Edge> entry : paths.entrySet()) {
 
@@ -64,26 +62,25 @@ public class Vieira extends Graph {
 					localIndex++;
 				}
 
-				// System.out.println("Menor");
-
 			}
-			// System.out.println("=============");
+
 			return;
 		}
-
+		//Vetor com os valores de distancia
 		Integer[] values = new Integer[matrixAuxiliar.length];
+		
 		for (Integer i = 0; i < matrixAuxiliar.length; i++) {
 
-			// Salva os valores em um vetor local
+			//Salva os valores em um vetor local
 			values[i] = matrixAuxiliar[origin][i];
 			
-			// apaga os caminhos de inda e vinda para impedir voltar para este nó
-			// teoricamente voltar para o nó so perde tempo e aumenta a distancia
+			//apaga os caminhos de inda e vinda para impedir voltar para este no
 			matrixAuxiliar[origin][i] = 0;
 			matrixAuxiliar[i][origin] = 0;
 
 		}
 
+		//Main Loop
 		for (Integer i = 0; i < matrixAuxiliar.length; i++) {
 
 			// existe caminho
@@ -92,31 +89,34 @@ public class Vieira extends Graph {
 				int len = getNodesQuantity();
 				Integer localIndex=1;
 				
-				//Saves
+				//Variaveis de memoria
 				TreeMap<Integer, Edge> savePath = new TreeMap<Integer,Edge>();
 				Integer[][] saveMatrix = new Integer[len][len];
 				
+				//Nutri o caminho de memoria
 				for (Entry<Integer, Edge> entry : paths.entrySet()) {
 					savePath.put(localIndex, entry.getValue());
 					localIndex++;
-					
 				}
 				
+				//Nutri a matrix de memoria
 				for(int l=0;l<len;l++) {
-					
 					for(int k=0;k<len;k++) {
 						saveMatrix[l][k] = matrixAuxiliar[l][k];
 					}
 				}
+				
+				//Cria edge local
 				Edge edge = new Edge(origin, i, values[i]);
 
 				savePath.put(index, edge); // adiciona para o loop local
 				index++;
 				
-				// chama a recursividade para cada nó
+				// chama a recursividade para cada no
 				recursivePathFounder(i, destin, savePath, sum + edge.getAccumulatedDistance(),false);
 				
-				//return to the save
+				//Reseta a matrix de acordo com o salvado
+				//Elimina o que mudou dentro da recursividade
 				for(int l=0;l<len;l++) {
 					
 					for(int k=0;k<len;k++) {
@@ -179,13 +179,7 @@ public class Vieira extends Graph {
 			dij.insertEdge(7, 5, 3);
 
 			// Case 1
-			long startTime = System.currentTimeMillis();
-			
 			dij.findSmallestPath(2, 5);
-			
-			long finishTime = System.currentTimeMillis();
-			System.out.println("Tempo de execu��o: " + (finishTime - startTime) + "ms");
-			
 			System.out.println("########### Test Case ##########");
 
 			dij.getPathToDestination().forEach((key, edge) -> {
