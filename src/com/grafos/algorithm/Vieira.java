@@ -179,7 +179,13 @@ public class Vieira extends Graph {
 			dij.insertEdge(7, 5, 3);
 
 			// Case 1
+			long startTime = System.currentTimeMillis();
+			
 			dij.findSmallestPath(2, 5);
+			
+			long finishTime = System.currentTimeMillis();
+			System.out.println("Tempo de execução: " + (finishTime - startTime) + "ms");
+			
 			System.out.println("########### Test Case ##########");
 
 			dij.getPathToDestination().forEach((key, edge) -> {

@@ -200,8 +200,12 @@ public class Dijkstra extends Graph {
 			
 			System.out.println("########### Test Case ##########");
 			
-			//Case 1
-			dij.findSmallestPath(5, 2);
+			long startTime = System.currentTimeMillis();
+			
+			dij.findSmallestPath(2, 5);
+			
+			long finishTime = System.currentTimeMillis();
+			System.out.println("Tempo de execução: " + (finishTime - startTime) + "ms");
 			
 			System.out.println("Rota:");
 			dij.getPathToDestination().forEach((key, edge) -> {
