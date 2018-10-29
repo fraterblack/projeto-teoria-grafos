@@ -58,8 +58,7 @@ public class Dijkstra extends Graph {
 					
 					//Apartir do nó resolvido (linha na matriz), itera sobre os nós adjacentes (colunas na matriz)
 					for (int i = 0; i < getNodesQuantity(); i++) {
-						//Só considera nós com valor maior que zero e que não seja adjascente a uma nó já resolvido
-						//E nós que ainda não tenham sido resolvidos
+						//Só considera nós com valor maior que zero e que seja adjascente a uma nó não resolvido
 						if (getMatrix()[currentNode][i] > 0 && solvedNodes.get(i) == null) {
 							//Soma do peso do nó adjascente ao valor acumulado do nó resolvido
 							int adjacentDistance = getMatrix()[currentNode][i] + acummulatedDistance;
