@@ -16,12 +16,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 
 import com.grafos.algorithm.PathFounder;
 import com.grafos.lib.FileDataManager;
 import com.grafos.model.Configuration;
+import com.grafos.model.Path;
+import com.grafos.table.model.DistancesTableModel;
 
 public class SearchView extends JFrame {
 	private static final long serialVersionUID = -3940554669996360493L;
@@ -57,7 +59,7 @@ public class SearchView extends JFrame {
 	/* GRID */
 	private int nextDistancesGridRow = 0;
 	private JScrollPane distanceGridScrollpane;
-	private DefaultTableModel distancesGridModel = new DefaultTableModel();
+	private DistancesTableModel distancesGridModel = new DistancesTableModel();
 
 	/* FINALIZACAO */
 	private JButton buttonSave;
@@ -302,11 +304,11 @@ public class SearchView extends JFrame {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 
-		String[] colunas = { "Código Origem", "Cidade Origem", "Código Destino", "Cidade Destino", "Distância" };
-
-		distancesGridModel.setColumnIdentifiers(colunas);
-
 		distancesGridTable = new JTable(distancesGridModel);
+		
+		// Habilita a seleção por linha
+		distancesGridTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		distanceGridScrollpane = new JScrollPane(distancesGridTable);
 		distanceGridScrollpane.setBounds(20, 190, 800, 260);
 		setLayout(null);
@@ -316,16 +318,16 @@ public class SearchView extends JFrame {
 
 	private void insertDistanceRow(String originCityCode, String originCity, String destinationCityCode,
 			String destinationCity, String distance) {
-		String[] rowData = { originCityCode, originCity, destinationCityCode, destinationCity, distance };
+		Path path = new Path(originCityCode, originCity, destinationCityCode, destinationCity, Integer.parseInt(distance));
 
-		distancesGridModel.insertRow(nextDistancesGridRow, rowData);
+		distancesGridModel.addItem(path);
 
 		nextDistancesGridRow++;
 	}
 
 	private void resetDistanceGrid() {
 		for (int i = nextDistancesGridRow - 1; i >= 0; i--) {
-			distancesGridModel.removeRow(i);
+			distancesGridModel.removeItem(i);
 		}
 
 		nextDistancesGridRow = 0;
