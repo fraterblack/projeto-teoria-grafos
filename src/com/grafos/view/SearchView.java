@@ -190,7 +190,7 @@ public class SearchView extends JFrame {
 
 		buttonSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 				String fileName = dateFormat.format(new Date()) + "_importado.txt";
 				
 				PathFounder founder = new PathFounder();

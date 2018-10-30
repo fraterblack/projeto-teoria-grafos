@@ -97,7 +97,7 @@ public class MainController implements ObserverTrayIconInterface {
 						File folder = new File(configuration.getRootFolder());
 						for (String fileName : folder.list()) {
 							if (fileName.endsWith(".txt")) {
-								DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+								DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 								
 								String filePath = folder.getPath() + "\\" + fileName;
 								java.nio.file.Path source = Paths.get(filePath);
