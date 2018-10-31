@@ -1,4 +1,4 @@
-# Teoria dos Grafos - Curso Ciência da Computação Unesc
+﻿# Teoria dos Grafos - Curso Ciência da Computação Unesc
 Projeto desenvolvido na disciplina Teoria dos Grafos.
 
 Equipe:
@@ -18,4 +18,4 @@ Layout de Arquivo:
 
 Separador: ;
 
-As informações se encontrarão nesta ordem em cada linha, separadas pelo caractere especial designado acima.
+As informações estarão nesta ordem em cada linha, separadas pelo caractere especial designado acima.
